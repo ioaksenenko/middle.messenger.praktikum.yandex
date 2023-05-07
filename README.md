@@ -28,5 +28,5 @@ npm install
 ```
 - запустить проект можно, выполнив команду
 ```bash
-npm run dev
+npm run start
 ```
