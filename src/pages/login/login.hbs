@@ -1,0 +1,17 @@
+{{#> components/page/page align="center" }}
+    {{#> components/typography/typography variant="h1" color="main" }}
+        Вход
+    {{/components/typography/typography}}
+    {{#> components/form/form action="/src/pages/chats/chats.html" }}
+        {{> components/input/input type="text" id="login" name="login" label="Логин" }}
+        {{> components/input/input type="password" id="password" name="password" label="Пароль" }}
+        {{#> components/button/button type="submit" }}
+            {{#> components/typography/typography variant="bodyL" color="white" }}
+                Войти
+            {{/components/typography/typography}}
+        {{/components/button/button}}
+    {{/components/form/form}}
+    {{#> components/question-link/question-link href="/src/pages/registration/registration.hbs" question="Ещё не зарегистированы?" }}
+        Зарегистрироваться
+    {{/components/question-link/question-link}}
+{{/components/page/page}}

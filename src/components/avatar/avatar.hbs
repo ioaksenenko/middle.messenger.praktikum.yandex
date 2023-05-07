@@ -1,0 +1,13 @@
+<div class="avatar {{ class }}">
+    <img
+        src={{#if src }}{{ src }}{{else}}"/static/images/avatar.png"{{/if}}
+        {{#if size }}width={{ size }}{{/if}}
+        {{#if size }}height={{ size }}{{/if}}
+    />
+    {{#if @partial-block }}
+        {{> components/overlay/overlay class="avatar__overlay" }}
+        <div class="avatar__actions">
+            {{> @partial-block }}
+        </div>
+    {{/if}}
+</div>
