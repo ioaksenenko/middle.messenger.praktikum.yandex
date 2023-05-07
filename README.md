@@ -13,6 +13,8 @@
 
 Макеты страниц можно посмотреть в [Figma](https://www.figma.com/file/BnLcqxgFKUCdPjpY1wIDCx/middle.messenger.praktikum.yandex?type=design&node-id=1-2&t=BDU1dp4EUgj5eYO4-0).
 
+Развернутый сайт можно посмотреть [здесь](https://fluffy-banoffee-3c0632.netlify.app/).
+
 ## Установка
 
 Для установки проекта достаточно

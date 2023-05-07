@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "parcel index.hbs --open --no-cache --port 3000",
-    "build": "parcel build index.html"
+    "build": "parcel build index.hbs"
   },
   "keywords": [],
   "author": "",
