@@ -3,6 +3,7 @@
         src={{#if src }}{{ src }}{{else}}"/static/images/avatar.png"{{/if}}
         {{#if size }}width={{ size }}{{/if}}
         {{#if size }}height={{ size }}{{/if}}
+        alt="avatar"
     />
     {{#if @partial-block }}
         {{> components/overlay/overlay class="avatar__overlay" }}

@@ -1,6 +1,6 @@
 <div class="input-box">
     <input
-        class="input icon-{{ icon }}"
+        class="input {{#if icon }}icon-{{ icon }}{{/if}}"
         {{#if type }}type="{{ type }}"{{/if}}
         {{#if id }}id="{{ id }}"{{/if}}
         {{#if name }}name="{{ name }}"{{/if}}
