@@ -1,0 +1,7 @@
+<button
+    class="button color-{{#if color }}{{ color }}{{else}}primary1{{/if}} view-{{#if view }}{{ view }}{{else}}primary{{/if}} {{ class }}"
+    {{#if type }}type="{{ type }}"{{/if}}
+    {{#if onclick }}onclick="{{ onclick }}"{{/if}}
+>
+    {{> @partial-block }}
+</button>

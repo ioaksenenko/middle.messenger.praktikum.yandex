@@ -1,0 +1,12 @@
+{{#> components/page/page align="center" }}
+    {{#> components/typography/typography variant="mega" color="main" }}
+        {{ code }}
+    {{/components/typography/typography}}
+    <img src="/static/images/sad_avocado.png" alt="sad avocado" />
+    {{#> components/typography/typography variant="mega" color="main" }}
+        {{> @partial-block }}
+    {{/components/typography/typography}}
+    {{#> components/link/link href="../../pages/chats/chats.hbs" variant="bodyL" color="primary1" }}
+        Вернуться к чатам
+    {{/components/link/link}}
+{{/components/page/page}}
