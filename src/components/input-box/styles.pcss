@@ -1,0 +1,306 @@
+.input-box {
+    position: relative;
+    
+    .label {
+        width: 100%;
+        pointer-events: none;
+        transition-property: background, transform, color;
+        transition-timing-function: ease-out;
+        transition-duration: 0.15s;
+        font-style: normal;
+        font-feature-settings: "tnum", "lnum";
+        font-weight: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &:has(.input_size-medium) {
+        .label {
+            position: absolute;
+            left: 0px;
+            font-size: 16px;
+            line-height: 24px;
+            transform: translate(0px, 12px);
+        }
+    }
+
+    &:has(.input_size-medium.input_shape-rounded) {
+        .label {
+            padding: 0px 12px;
+        }
+    }
+
+    &:has(.input_size-medium.input_shape-circular) {
+        .label {
+            padding: 0px 20px;
+        }
+    }
+
+    &:has(.input_size-small, .input_size-xsmall) {
+        .label {
+            font-size: 12px;
+            line-height: 16px;
+        }
+    }
+
+    &:has(.label) {
+        .input_size-medium.input_shape-rounded {
+            padding: 20px 12px 4px;
+        }
+        .input_size-medium.input_shape-circular {
+            padding: 20px 20px 4px;
+        }
+    }
+
+    &:has(.input_size-medium:focus, .input_size-medium:not(:placeholder-shown)) {
+        .label {
+            font-size: 12px;
+            line-height: 16px;
+            transform: translate(0px, 4px);
+        }
+    }
+    &:has(.input_size-medium:focus.input_color-primary1, .input_size-medium:not(:placeholder-shown).input_color-primary1) {
+        .label {
+            color: var(--color-primary1);
+        }
+    }
+    &:has(.input_size-medium:focus.input_color-primary2, .input_size-medium:not(:placeholder-shown).input_color-primary2) {
+        .label {
+            color: var(--color-primary2);
+        }
+    }
+    &:has(.input_size-medium:focus.input_color-secondary1, .input_size-medium:not(:placeholder-shown).input_color-secondary1) {
+        .label {
+            color: var(--color-secondary1);
+        }
+    }
+    &:has(.input_size-medium:focus.input_color-secondary2, .input_size-medium:not(:placeholder-shown).input_color-secondary2) {
+        .label {
+            color: var(--color-secondary2);
+        }
+    }
+
+    &:has(.input_color-white, .input_color-black) {
+        .label {
+            color: var(--color-black-alpha70);
+        }
+    }
+    &:has(.input_color-primary1) {
+        .label {
+            color: var(--color-primary1-alpha70);
+        }
+    }
+    &:has(.input_color-primary2) {
+        .label {
+            color: var(--color-primary2-alpha70);
+        }
+    }
+    &:has(.input_color-secondary1) {
+        .label {
+            color: var(--color-secondary1-alpha70);
+        }
+    }
+    &:has(.input_color-secondary2) {
+        .label {
+            color: var(--color-secondary2-alpha70);
+        }
+    }
+
+    .icon-box {
+        position: absolute;
+        bottom: 0;
+        &_position-left {
+            left: 0;
+        }
+        &_position-right {
+            right: 0;
+        }
+    }
+
+    &:has(.input_size-medium) {
+        .icon-box,
+        .icon-box svg {
+            min-width: 24px;
+            max-width: 24px;
+            height: 24px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-geometric) {
+        .icon-box {
+            transform: translate(0px, -12px);   
+        }
+    }
+    &:has(.input_size-medium.input_shape-geometric)&:has(.icon-box_position-right) {
+        .input {
+            padding: 20px 32px 4px 0px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-geometric)&:has(.icon-box_position-left) {
+        .input {
+            padding: 20px 0px 4px 32px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-rounded) {
+        .icon-box_position-right {
+            transform: translate(-8px, -12px);
+        }
+        .icon-box_position-left {
+            transform: translate(8px, -12px);
+        }
+    }
+    &:has(.input_size-medium.input_shape-rounded)&:has(.icon-box_position-right) {
+        .input {
+            padding: 20px 40px 4px 12px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-rounded)&:has(.icon-box_position-left) {
+        .input {
+            padding: 20px 12px 4px 40px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-circular) {
+        .icon-box_position-right {
+            transform: translate(-16px, -12px);
+        }
+        .icon-box_position-left {
+            transform: translate(16px, -12px);
+        }
+    }
+    &:has(.input_size-medium.input_shape-circular)&:has(.icon-box_position-right) {
+        .input {
+            padding: 20px 48px 4px 20px;
+        }
+    }
+    &:has(.input_size-medium.input_shape-circular)&:has(.icon-box_position-left) {
+        .input {
+            padding: 20px 20px 4px 48px;
+        }
+    }
+
+    &:has(.input_size-small) {
+        .icon-box,
+        .icon-box svg {
+            min-width: 20px;
+            max-width: 20px;
+            height: 20px;
+        }
+    }
+    &:has(.input_size-small.input_shape-geometric) {
+        .icon-box {
+            transform: translate(0px, -6px);
+        }
+    }
+    &:has(.input_size-small.input_shape-geometric)&:has(.icon-box_position-right) {
+        .input {
+            padding: 0px 28px 0px 0px;
+        }
+    }
+    &:has(.input_size-small.input_shape-geometric)&:has(.icon-box_position-left) {
+        .input {
+            padding: 0px 0px 0px 28px;
+        }
+    }
+    &:has(.input_size-small.input_shape-rounded) {
+        .icon-box_position-right {
+            transform: translate(-8px, -6px);
+        }
+        .icon-box_position-left {
+            transform: translate(8px, -6px);
+        }
+    }
+    &:has(.input_size-small.input_shape-rounded)&:has(.icon-box_position-right) {
+        .input {
+            padding: 6px 36px 6px 12px;
+        }
+    }
+    &:has(.input_size-small.input_shape-rounded)&:has(.icon-box_position-left) {
+        .input {
+            padding: 6px 12px 6px 36px;
+        }
+    }
+    &:has(.input_size-small.input_shape-circular) {
+        .icon-box_position-right {
+            transform: translate(-10px, -6px);
+        }
+        .icon-box_position-left {
+            transform: translate(10px, -6px);
+        }
+    }
+    &:has(.input_size-small.input_shape-circular)&:has(.icon-box_position-right) {
+        .input {
+            padding: 6px 38px 6px 14px;
+        }
+    }
+    &:has(.input_size-small.input_shape-circular)&:has(.icon-box_position-left) {
+        .input {
+            padding: 6px 14px 6px 38px;
+        }
+    }
+
+    &:has(.input_size-xsmall) {
+        .icon-box,
+        .icon-box svg {
+            min-width: 16px;
+            max-width: 16px;
+            height: 16px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-geometric) {
+        .icon-box {
+            transform: translate(0px, -4px);
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-geometric)&:has(.icon-box_position-right) {
+        .input {
+            padding: 0px 20px 0px 0px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-geometric)&:has(.icon-box_position-left) {
+        .input {
+            padding: 0px 0px 0px 20px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-rounded) {
+        .icon-box_position-right {
+            transform: translate(-8px, -4px);
+        }
+        .icon-box_position-left {
+            transform: translate(8px, -4px);
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-rounded)&:has(.icon-box_position-right) {
+        .input {
+            padding: 4px 28px 4px 8px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-rounded)&:has(.icon-box_position-left) {
+        .input {
+            padding: 4px 8px 4px 28px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-circular) {
+        .icon-box_position-right {
+            transform: translate(-10px, -4px);
+        }
+        .icon-box_position-left {
+            transform: translate(10px, -4px);
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-circular)&:has(.icon-box_position-right) {
+        .input {
+            padding: 4px 30px 4px 12px;
+        }
+    }
+    &:has(.input_size-xsmall.input_shape-circular)&:has(.icon-box_position-left) {
+        .input {
+            padding: 4px 12px 4px 30px;
+        }
+    }
+}
+
+.input-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

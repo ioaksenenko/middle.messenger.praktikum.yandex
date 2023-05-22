@@ -1,0 +1,54 @@
+@import "./components/styles.pcss";
+@import "./pages/styles.pcss";
+@import "./icons/styles.pcss";
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('/static/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+:root {
+    --color-white: rgb(255, 255, 255);
+    --color-black: rgb(16, 24, 40);
+    --color-primary1: rgb(43, 69, 38);
+    --color-primary2: rgb(135, 117, 108);
+    --color-secondary1: rgb(129, 158, 123);
+    --color-secondary2: rgb(232, 219, 202);
+    --color-light: rgba(235, 233, 234, 0.25);
+
+    --color-black-alpha5: rgb(16, 24, 40, 0.05);
+    --color-primary1-alpha5: rgb(43, 69, 38, 0.05);
+    --color-primary2-alpha5: rgb(135, 117, 108, 0.05);
+    --color-secondary1-alpha5: rgb(129, 158, 123, 0.05);
+    --color-secondary2-alpha5: rgb(232, 219, 202, 0.05);
+
+    --color-black-alpha10: rgb(16, 24, 40, 0.1);
+    --color-primary1-alpha10: rgb(43, 69, 38, 0.1);
+    --color-primary2-alpha10: rgb(135, 117, 108, 0.1);
+    --color-secondary1-alpha10: rgb(129, 158, 123, 0.1);
+    --color-secondary2-alpha10: rgb(232, 219, 202, 0.1);
+
+    --color-black-alpha70: rgb(16, 24, 40, 0.7);
+    --color-primary1-alpha70: rgb(43, 69, 38, 0.7);
+    --color-primary2-alpha70: rgb(135, 117, 108, 0.7);
+    --color-secondary1-alpha70: rgb(129, 158, 123, 0.7);
+    --color-secondary2-alpha70: rgb(232, 219, 202, 0.7);
+
+    --color-error: rgb(255, 12, 12, 0.8);
+}
+
+* {
+    font-family: "JetBrains Mono";
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--color-white);
+}
