@@ -1,5 +1,5 @@
 import { Component } from "../../core";
-import { IBoxProps, BoxTag, BoxDisplay, BoxFlexDirection, BoxAlignItems, BoxJustifyContent, BoxGap, BoxHeight, BoxWidth } from "./types";
+import { IBoxProps, BoxTag, BoxDisplay, BoxFlexDirection, BoxAlignItems, BoxJustifyContent, BoxHeight, BoxWidth, BoxOverflow } from "./types";
 import template from "./template.hbs";
 
 export class Box extends Component<IBoxProps> {
@@ -15,7 +15,9 @@ export class Box extends Component<IBoxProps> {
         gap,
         height = BoxHeight.auto,
         width = BoxWidth.auto,
-        position
+        position,
+        padding,
+        overflow = BoxOverflow.auto
     }: IBoxProps = {}) {
         super({
             id,
@@ -29,7 +31,9 @@ export class Box extends Component<IBoxProps> {
             gap,
             height,
             width,
-            position
+            position,
+            padding,
+            overflow
         }, template);
     }
 }

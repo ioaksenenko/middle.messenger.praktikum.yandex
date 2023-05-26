@@ -1,18 +1,16 @@
 import { Component } from "../../core";
 import { IChatsPageProps } from "./types";
-import { Avatar, Box, Button, Chat, Form, InputBox, Link, Page, Typography, User } from "../../components";
+import { Avatar, Box, ChatList, InputBox, Link, Page, User, MessageList } from "../../components";
 import { TComponentOrComponentArray } from "../../core/component/types";
 import { Color, Shape, Size } from "../../types";
-import { AttachmentIcon, ChevronRight, SearchIcon } from "../../icons";
-import { TypographyVariant } from "../../components/typography/types";
-import { BoxAlignItems, BoxFlexDirection, BoxGap, BoxHeight, BoxJustifyContent, BoxWidth } from "../../components/box/types";
-import { ButtonType, ButtonView } from "../../components/button/types";
-import template from "./template.hbs";
-import { FormMethod } from "../../components/form/types";
+import { SearchIcon } from "../../icons";
+import { BoxFlexDirection, BoxHeight, BoxWidth } from "../../components/box/types";
+import { IChat } from "../../data";
+import { MessageInputBox } from "../../components/message-input-box";
 
 export class ChatsPage extends Component<IChatsPageProps> {
-    constructor({selected = false, messages}: IChatsPageProps = {}) {
-        super({selected, messages}, template);
+    constructor({activeChat, messages}: IChatsPageProps = {}) {
+        super({activeChat, messages});
     }
 
     protected render(): TComponentOrComponentArray {
@@ -22,7 +20,6 @@ export class ChatsPage extends Component<IChatsPageProps> {
                 new Box({
                     height: BoxHeight.full,
                     className: "chat-page__sidebar",
-                    gap: BoxGap.small,
                     children: [
                         new User({
                             avatar: new Avatar({
@@ -43,11 +40,9 @@ export class ChatsPage extends Component<IChatsPageProps> {
                                 fill: Color.primary1
                             })
                         }),
-                        new Chat({
-                            title: "Пользователь 1",
-                            date: "18:09",
-                            message: "Последнее присланное вам сообщение. Максимум может быть две строки, а потом должно идти троеточие. Ну ка посмотрим, что получилось. Нет, нужно  ещё немного текста. И ещё чуть-чуть.",
-                            onClick: this.handleChatClick.bind(this)
+                        new ChatList({
+                            activeChat: this.props.activeChat,
+                            setActiveChat: this.setActiveChat.bind(this)
                         })
                     ]
                 }),
@@ -55,80 +50,30 @@ export class ChatsPage extends Component<IChatsPageProps> {
                     height: BoxHeight.full,
                     width: BoxWidth.full,
                     children: [
-                        new Box({
-                            height: BoxHeight.full,
-                            width: BoxWidth.full,
-                            alignItems: BoxAlignItems.center,
-                            justifyContent: BoxJustifyContent.center,
-                            children: this.props.messages ? this.props.messages.map(
-                                message => new Box({
-                                    children: message
-                                })
-                            ) : new Typography({
-                                variant: TypographyVariant.mega,
-                                children: this.props.selected ? "Напишите сообщение, чтобы начать диалог" : "Выберите чат, чтобы отправить сообщение",
-                                className: "chat-page__placeholder"
-                            })
+                        this.props.activeChat && new User({
+                            className: "chat-page__user",
+                            avatar: new Avatar({
+                                src: this.props.activeChat.avatar,
+                                size: 36
+                            }),
+                            children: this.props.activeChat.title
                         }),
-                        this.props.selected && new Box({
-                            alignItems: BoxAlignItems.center,
-                            justifyContent: BoxJustifyContent.center,
-                            flexDirection: BoxFlexDirection.row,
-                            gap: BoxGap.small,
-                            width: BoxWidth.full,
-                            className: "chat-page__message-box",
-                            children: [
-                                new Button({
-                                    children: new AttachmentIcon(),
-                                    shape: Shape.circular,
-                                    color: Color.primary2,
-                                    size: Size.small,
-                                    view: ButtonView.ghost
-                                }),
-                                new Form({
-                                    method: FormMethod.post,
-                                    className: "chats-page__message-form",
-                                    onSubmit: this.handleFormSubmit.bind(this),
-                                    children: [
-                                        new InputBox({
-                                            placeholder: "Сообщение",
-                                            name: "message",
-                                            shape: Shape.rounded,
-                                            required: true
-                                        }),
-                                        new Button({
-                                            children: new ChevronRight({fill: Color.white}),
-                                            shape: Shape.circular,
-                                            color: Color.primary2,
-                                            size: Size.small,
-                                            type: ButtonType.submit
-                                        })
-                                    ]
-                                })
-                            ]
-                        })
+                        new MessageList({
+                            activeChat: this.props.activeChat
+                        }),
+                        this.props.activeChat && new MessageInputBox({
+                            activeChat: this.props.activeChat,
+                            setActiveChat: this.setActiveChat.bind(this)
+                        }) 
                     ]
                 })
             ]
         })
     }
 
-    private handleChatClick() {
+    private setActiveChat(chat: IChat) {
         this.setProps({
-            selected: true
-        })
-    }
-
-    private handleFormSubmit(event: SubmitEvent) {
-        event.preventDefault();
-        const form = event.target as HTMLFormElement;
-        const formData = new FormData(form);
-        const message = formData.get("message") as string;
-        message && this.setProps({
-            messages: [
-                ...(this.props.messages || []),
-                message
-            ]
+            activeChat: chat
         })
     }
 }

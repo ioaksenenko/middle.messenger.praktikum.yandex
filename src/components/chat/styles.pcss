@@ -1,5 +1,5 @@
 .chat {
-    max-height: 56px;
+    max-height: 72px;
     overflow: hidden;
 
     &__avatar {
@@ -14,7 +14,11 @@
     }
 
     &:hover {
-        background-color: var(--color-primary1-alpha10);
+        background-color: var(--color-black-alpha10);
         cursor: pointer;
+    }
+
+    &_active {
+        background-color: var(--color-primary1-alpha10);
     }
 }

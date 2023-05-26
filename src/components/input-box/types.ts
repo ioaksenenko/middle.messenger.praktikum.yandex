@@ -13,4 +13,5 @@ export interface IInputBoxProps extends IInputProps {
     iconPosition?: IconPosition;
     validationRules?: Array<IValidationRule>;
     error?: string;
+    onIconClick?: EventListener;
 };

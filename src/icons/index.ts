@@ -5,3 +5,4 @@ export { TrashIcon } from "./trash-icon";
 export { UploadIcon } from "./upload-icon";
 export { ChevronRight } from "./chevron-right";
 export { AttachmentIcon } from "./attachment-icon";
+export { CheckIcon } from "./check-icon";

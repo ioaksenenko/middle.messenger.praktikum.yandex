@@ -56,6 +56,20 @@ export enum BoxPosition {
     sticky = "sticky"
 }
 
+export enum BoxPadding {
+    xlarge = "xlarge",
+    large = "large",
+    middle = "middle",
+    small = "small",
+    xsmall = "xsmall"
+}
+
+export enum BoxOverflow {
+    hidden = "hidden",
+    visible = "visible",
+    auto = "auto"
+}
+
 export interface IBoxProps extends IComponentProps {
     tag?: BoxTag;
     display?: BoxDisplay;
@@ -66,4 +80,6 @@ export interface IBoxProps extends IComponentProps {
     height?: BoxHeight;
     width?: BoxWidth;
     position?: BoxPosition;
+    padding?: BoxPadding;
+    overflow?: BoxOverflow;
 };

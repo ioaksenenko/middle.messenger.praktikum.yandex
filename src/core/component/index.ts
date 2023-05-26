@@ -21,6 +21,7 @@ import {
 export class Component<P extends Record<string, any> = {}> {
     private _template: HTMLTemplateElement;
     protected eventBus: EventBus;
+    private _components: TComponentRecord;
     
     constructor(protected props: P = {} as P, protected templateDelegate: TemplateDelegate | undefined = undefined) {
         this.props = this._makePropsProxy({
@@ -40,8 +41,9 @@ export class Component<P extends Record<string, any> = {}> {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set: (target: P, prop: string, value) => {
+                const oldProps = cloneDeep(target);
                 (target as Record<string, any>)[prop] = value;
-                this.eventBus.emit(ComponentEvent.CDU, cloneDeep(target), target);
+                this.eventBus.emit(ComponentEvent.CDU, oldProps, target);
                 return true;
             },
             deleteProperty: () => {
@@ -126,11 +128,28 @@ export class Component<P extends Record<string, any> = {}> {
             
             this._addEventListeners(allListeners);
 
-            document.getElementById(this.props.id)?.replaceWith(element);
+            const oldElement = document.getElementById(this.props.id);
+            const newElement = this._template.content.firstElementChild;
+            if (oldElement) {
+                newElement && oldElement.replaceWith(newElement);
+            } else {
+                const id =  this._getFragmentChildId();
+                id && newElement && document.getElementById(id)?.replaceWith(newElement);
+            }
+
             this._componentDidMount();
         }
         
         this._setAttributes();
+
+        this._components = components;
+    }
+
+    private _getFragmentChildId() {
+        if (!Array.isArray(this._components?.children)) {
+            const props = this._components?.children.props as {id: string};
+            return props?.id;
+        }
     }
 
     protected render(): TComponentOrComponentArray {
@@ -138,6 +157,10 @@ export class Component<P extends Record<string, any> = {}> {
     }
 
     private _renderStub<T extends IComponentProps = {}>(component: Component<T>) {
+        const element = component.props.id && document.getElementById(component.props.id);
+        if (element) {
+            component._template.content.appendChild(element);
+        }
         return `<div id="${component.props.id}"></div>`;
     }
 

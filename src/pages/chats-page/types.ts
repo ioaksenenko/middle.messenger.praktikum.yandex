@@ -1,4 +1,6 @@
+import { IChat } from "../../data";
+
 export interface IChatsPageProps {
-    selected?: boolean;
+    activeChat?: IChat;
     messages?: Array<string>;
 };

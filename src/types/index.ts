@@ -5,7 +5,8 @@ import {
     TrashIcon,
     UploadIcon,
     ChevronRight,
-    AttachmentIcon
+    AttachmentIcon,
+    CheckIcon
 } from "../icons";
 
 export type TIcon =
@@ -15,7 +16,8 @@ export type TIcon =
     | TrashIcon
     | UploadIcon
     | ChevronRight
-    | AttachmentIcon;
+    | AttachmentIcon
+    | CheckIcon;
 
 export enum Color {
     primary1 = "primary1",

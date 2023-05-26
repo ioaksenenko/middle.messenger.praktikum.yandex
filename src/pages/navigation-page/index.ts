@@ -11,7 +11,7 @@ export class NavigationPage extends Component {
             children: new Nav({
                 children: [
                     new NavLink({
-                        href: "/login",
+                        href: "/login/",
                         children: "Авторизация"
                     }),
                     new NavLink({

@@ -6,17 +6,22 @@ import { Avatar } from "../avatar";
 import { Typography } from "../typography";
 import { TypographyVariant } from "../typography/types";
 import { Color } from "../../types";
-import { BoxFlexDirection, BoxGap, BoxJustifyContent, BoxWidth } from "../box/types";
+import { BoxFlexDirection, BoxGap, BoxJustifyContent, BoxPadding, BoxWidth } from "../box/types";
+import { classNames } from "../../helpers";
 
 export class Chat extends Component<IChatProps> {
-    constructor({id, className, children, avatar, title, date, message, onClick}: IChatProps) {
-        super({id, className, children, avatar, title, date, message, onClick});
+    constructor({id, className, children, avatar, title, date, message, active, onClick}: IChatProps) {
+        super({chatId: id, className, children, avatar, title, date, message, active, onClick});
     }
 
     protected render(): TComponentOrComponentArray {
         return new Box({
+            id: this.props.chatId,
             flexDirection: BoxFlexDirection.row,
-            className: "chat",
+            width: BoxWidth.full,
+            gap: BoxGap.small,
+            padding: BoxPadding.small,
+            className: classNames("chat", this.props.active && "chat_active"),
             children: [
                 new Avatar({
                     size: 56,
@@ -25,6 +30,7 @@ export class Chat extends Component<IChatProps> {
                 }),
                 new Box({
                     gap: BoxGap.xsmall,
+                    width: BoxWidth.full,
                     children: [
                         new Box({
                             flexDirection: BoxFlexDirection.row,
@@ -39,7 +45,7 @@ export class Chat extends Component<IChatProps> {
                                 new Typography({
                                     variant: TypographyVariant.caption,
                                     color: Color.secondary1,
-                                    children: this.props.date
+                                    children: this.props.date && new Date(this.props.date).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric"})
                                 })
                             ]
                         }),

@@ -1,16 +1,11 @@
-.chat-page__placeholder {
-    width: 500px;
-    opacity: 0.25;
-}
-
 .chat-page__sidebar {
     border-right: thin solid var(--color-black-alpha10);
-    padding: 8px;
     width: calc(100vw / 3);
 }
 
 .chat-page__search {
-    width: 100%;
+    width: calc(100% - 16px);
+    margin: 8px;
 }
 
 .chat-page__message-box {
@@ -25,10 +20,6 @@
     height: 100%;
 }
 
-.chats-page__message-form {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
+.chat-page__user {
+    border-bottom: thin solid var(--color-black-alpha10);
 }

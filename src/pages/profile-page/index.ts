@@ -4,10 +4,23 @@ import { ButtonView } from "../../components/button/types";
 import { InputType } from "../../components/input/types";
 import { Component } from "../../core";
 import { TComponentOrComponentArray } from "../../core/component/types";
-import { ArrowLeftIcon, EditIcon, TrashIcon, UploadIcon } from "../../icons";
+import { emailValidatorRule, loginValidatorRule, nameValidatorRule, passwordValidatorRule, phoneValidatorRule } from "../../helpers/validators";
+import { ArrowLeftIcon, EditIcon, TrashIcon, UploadIcon, CheckIcon } from "../../icons";
 import { Color, IconPosition } from "../../types";
+import { IProfilePageProps } from "./types";
 
-export class ProfilePage extends Component {
+export class ProfilePage extends Component<IProfilePageProps> {
+    constructor() {
+        super({
+            emailIsEditing: false,
+            loginIsEditing: false,
+            firstNameIsEditing: false,
+            lastNameIsEditing: false,
+            phoneIsEditing: false,
+            passwordIsEditing: false
+        })
+    }
+
     protected render(): TComponentOrComponentArray {
         return new Page({
             justifyContent: BoxJustifyContent.center,
@@ -35,46 +48,62 @@ export class ProfilePage extends Component {
                     ]
                 }),
                 new Form({
+                    className: "profile-page__form",
                     children: [
                         new InputBox({
                             type: InputType.email,
                             name: "email",
                             label: "Почта",
                             value: "ioaksenenko@gmail.com",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.emailIsEditing,
+                            icon: this.props.emailIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.emailIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.toggleEmailEditing.bind(this),
+                            validationRules: [emailValidatorRule()],
                             iconPosition: IconPosition.right
                         }),
                         new InputBox({
                             name: "login",
                             label: "Логин",
                             value: "ioaksenenko",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.loginIsEditing,
+                            icon: this.props.loginIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.loginIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.toggleLoginEditing.bind(this),
+                            validationRules: [loginValidatorRule()],
                             iconPosition: IconPosition.right
                         }),
                         new InputBox({
                             name: "first_name",
                             label: "Имя",
                             value: "Иван",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.firstNameIsEditing,
+                            icon: this.props.firstNameIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.firstNameIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.toggleFirstNameEditing.bind(this),
+                            validationRules: [nameValidatorRule()],
                             iconPosition: IconPosition.right
                         }),
                         new InputBox({
                             name: "second_name",
                             label: "Фамилия",
                             value: "Аксененко",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.lastNameIsEditing,
+                            icon: this.props.lastNameIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.lastNameIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.toggleLastNameEditing.bind(this),
+                            validationRules: [nameValidatorRule()],
                             iconPosition: IconPosition.right
                         }),
                         new InputBox({
                             name: "phone",
                             label: "Телефон",
                             value: "+7 (961) 218-61-43",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.phoneIsEditing,
+                            icon: this.props.phoneIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.phoneIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.togglePhoneEditing.bind(this),
+                            validationRules: [phoneValidatorRule()],
                             iconPosition: IconPosition.right
                         }),
                         new InputBox({
@@ -82,8 +111,11 @@ export class ProfilePage extends Component {
                             name: "password",
                             label: "Пароль",
                             value: "qwerty",
-                            readonly: true,
-                            icon: new EditIcon(),
+                            readonly: !this.props.passwordIsEditing,
+                            icon: this.props.passwordIsEditing ? new CheckIcon() : new EditIcon(),
+                            color: this.props.passwordIsEditing ? Color.primary2 : Color.primary1,
+                            onIconClick: this.togglePasswordEditing.bind(this),
+                            validationRules: [passwordValidatorRule()],
                             iconPosition: IconPosition.right
                         })
                     ]
@@ -102,5 +134,41 @@ export class ProfilePage extends Component {
 
     private handleClickLogoutButton() {
         document.location.href = "/login/";
+    }
+
+    private toggleEmailEditing() {
+        this.setProps({
+            emailIsEditing: !this.props.emailIsEditing
+        })
+    }
+
+    private toggleLoginEditing() {
+        this.setProps({
+            loginIsEditing: !this.props.loginIsEditing
+        })
+    }
+
+    private toggleFirstNameEditing() {
+        this.setProps({
+            firstNameIsEditing: !this.props.firstNameIsEditing
+        })
+    }
+
+    private toggleLastNameEditing() {
+        this.setProps({
+            lastNameIsEditing: !this.props.lastNameIsEditing
+        })
+    }
+
+    private togglePhoneEditing() {
+        this.setProps({
+            phoneIsEditing: !this.props.phoneIsEditing
+        })
+    }
+
+    private togglePasswordEditing() {
+        this.setProps({
+            passwordIsEditing: !this.props.passwordIsEditing
+        })
     }
 }
