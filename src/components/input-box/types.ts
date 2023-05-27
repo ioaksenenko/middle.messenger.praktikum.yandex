@@ -7,11 +7,12 @@ export interface IValidationRule {
     validate: (value: string) => boolean;
 }
 
-export interface IInputBoxProps extends IInputProps {
+export interface IInputBoxProps extends Omit<IInputProps, "focus"> {
     label?: string;
     icon?: TIcon;
     iconPosition?: IconPosition;
     validationRules?: Array<IValidationRule>;
     error?: string;
     onIconClick?: EventListener;
+    isFocused?: boolean;
 };

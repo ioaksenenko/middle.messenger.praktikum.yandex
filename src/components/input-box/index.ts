@@ -31,9 +31,8 @@ export class InputBox extends Component<IInputBoxProps> {
         iconPosition = IconPosition.left,
         validationRules,
         error,
-        onBlur,
-        onFocus,
-        onIconClick
+        onIconClick,
+        isFocused = false
     }: IInputBoxProps = {}) {
         super({
             id,
@@ -54,9 +53,8 @@ export class InputBox extends Component<IInputBoxProps> {
             iconPosition,
             validationRules,
             error,
-            onBlur,
-            onFocus,
-            onIconClick
+            onIconClick,
+            isFocused
         });
     }
 
@@ -66,11 +64,17 @@ export class InputBox extends Component<IInputBoxProps> {
             gap: BoxGap.xsmall,
             className: classNames(
                 "input-box",
-                this.props.className
+                this.props.className,
+                this.props.size && `input-box_size-${this.props.size}`,
+                this.props.shape && `input-box_shape-${this.props.shape}`,
+                this.props.color && `input-box_color-${this.props.color}`,
+                this.props.icon && this.props.iconPosition && `input-box_icon-position-${this.props.iconPosition}`,
+                this.props.isFocused && `input-box_focus`,
+                this.props.value && `input-box_filled`
             ),
             children: [
                 this.props.label && new Label({
-                    className: "label",
+                    className: "input-box__label",
                     children: this.props.label
                 }),
                 new Box({
@@ -89,12 +93,14 @@ export class InputBox extends Component<IInputBoxProps> {
                             color: this.props.color,
                             shape: this.props.shape,
                             pattern: this.props.pattern,
-                            onBlur: this.handleInputBlur.bind(this)
+                            onFocus: this.handleInputFocus.bind(this),
+                            onBlur: this.handleInputBlur.bind(this),
+                            focus: this.props.isFocused
                         }),
                         this.props.icon && new Button({
                             className: classNames(
-                                "icon-box",
-                                this.props.iconPosition && `icon-box_position-${this.props.iconPosition}`
+                                "input-box__icon-button",
+                                this.props.iconPosition && `input-box__icon-button_position-${this.props.iconPosition}`
                             ),
                             children: this.props.icon,
                             shape: Shape.circular,
@@ -117,9 +123,13 @@ export class InputBox extends Component<IInputBoxProps> {
         this.setProps({
             value: target.value
         });
+        this.handleInputBlur(event);
     }
 
     protected handleInputBlur(event: Event) {
+        this.setProps({
+            isFocused: false
+        })
         const target = event.target as HTMLInputElement;
         if (this.props.validationRules) {
             this.setProps({
@@ -134,5 +144,11 @@ export class InputBox extends Component<IInputBoxProps> {
                 }
             })
         }
+    }
+
+    protected handleInputFocus() {
+        this.setProps({
+            isFocused: true
+        })
     }
 }

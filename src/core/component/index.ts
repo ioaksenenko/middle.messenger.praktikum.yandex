@@ -6,7 +6,8 @@ import { EventBus } from "../event-bus";
 import {
     cloneDeep,
     isComponentOrComponentArray,
-    isEventListenerOrEventListenerArray
+    isEventListenerOrEventListenerArray,
+    isPseudoClass
 } from "./helpers";
 
 import {
@@ -22,11 +23,15 @@ export class Component<P extends Record<string, any> = {}> {
     private _template: HTMLTemplateElement;
     protected eventBus: EventBus;
     private _components: TComponentRecord;
+    private _listeners: TEventListenerRecord;
+    private _pseudoClasses: Record<string, boolean>;
+    public id: string;
     
     constructor(protected props: P = {} as P, protected templateDelegate: TemplateDelegate | undefined = undefined) {
+        this.id = props.id || makeUUID();
         this.props = this._makePropsProxy({
             ...props,
-            id: props.id || makeUUID()
+            id: this.id
         });
         this.templateDelegate = templateDelegate || compile("{{{ children }}}");
         this.eventBus = new EventBus();
@@ -41,9 +46,7 @@ export class Component<P extends Record<string, any> = {}> {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set: (target: P, prop: string, value) => {
-                const oldProps = cloneDeep(target);
                 (target as Record<string, any>)[prop] = value;
-                this.eventBus.emit(ComponentEvent.CDU, oldProps, target);
                 return true;
             },
             deleteProperty: () => {
@@ -71,21 +74,56 @@ export class Component<P extends Record<string, any> = {}> {
     protected getComponentsAndListeners<T extends Record<string, any> = {}>(context: T) {
         const components: TComponentRecord = {};
         const listeners: TEventListenerRecord = {};
+        const pseudoClasses: Record<string, boolean> = {};
         Object.keys(context).forEach((key) => {
             if (isComponentOrComponentArray(context[key])) {
                 components[key] = context[key] as TComponentOrComponentArray;
             } else if (isEventListenerOrEventListenerArray(key, context[key])) {
                 listeners[key.substring(2).toLocaleLowerCase()] = context[key] as TEventListenerOrEventListenerArray;
+            } else if (isPseudoClass(key, context[key])) {
+                pseudoClasses[key] = context[key];
             }
         });
-        return {components, listeners};
+        return {components, listeners, pseudoClasses};
+    }
+
+    private _removeAllEventListeners(component: Component) {
+        component?._listeners && component._removeEventListeners(component._listeners);
+        component?._components && Object.values(component._components).forEach(
+            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
+                ? componentOrComponentArray.forEach(
+                    component => this._removeAllEventListeners(component)
+                ) : this._removeAllEventListeners(componentOrComponentArray)
+        );
+    }
+
+    private _addAllEventListeners(component: Component) {
+        component?._listeners && component._addEventListeners(component._listeners);
+        component?._components && Object.values(component._components).forEach(
+            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
+                ? componentOrComponentArray.forEach(
+                    component => this._addAllEventListeners(component)
+                ) : this._addAllEventListeners(componentOrComponentArray)
+        );
+    }
+
+    private _applyAllPseudoClasses(component: Component) {
+        component?._pseudoClasses && component._applyPseudoClasses(component._pseudoClasses);
+        component?._components && Object.values(component._components).forEach(
+            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
+                ? componentOrComponentArray.forEach(
+                    component => this._applyAllPseudoClasses(component)
+                ) : this._applyAllPseudoClasses(componentOrComponentArray)
+        );
     }
     
     private _render() {
+        this._removeAllEventListeners(this);
+
         const content = this.render();
 
         const context = {...cloneDeep(this.props), children: content};
-        const { components, listeners } = this.getComponentsAndListeners(context);
+        const { components, listeners, pseudoClasses } = this.getComponentsAndListeners(context);
         const internalListeners = this._getInternalListeners();
         const allListeners = Object.fromEntries(
             Object.entries(listeners).map(
@@ -118,15 +156,17 @@ export class Component<P extends Record<string, any> = {}> {
                 element.setAttribute("id", this.props.id);
             }
 
-            this._removeEventListeners(allListeners);
-
             Object.values(components).forEach(val => {
                 Array.isArray(val) ? val.filter(identity).forEach(
                     component => this._replaceStub(component)
                 ) : this._replaceStub(val);
             });
             
-            this._addEventListeners(allListeners);
+            Object.entries(listeners).forEach(
+                ([key, val]) => Array.isArray(val) ? val.forEach(
+                    listener => this._template.content.firstElementChild?.addEventListener(key, listener)
+                ) : this._template.content.firstElementChild?.addEventListener(key, val)
+            );
 
             const oldElement = document.getElementById(this.props.id);
             const newElement = this._template.content.firstElementChild;
@@ -136,13 +176,39 @@ export class Component<P extends Record<string, any> = {}> {
                 const id =  this._getFragmentChildId();
                 id && newElement && document.getElementById(id)?.replaceWith(newElement);
             }
-
-            this._componentDidMount();
         }
         
         this._setAttributes();
 
         this._components = components;
+        this._listeners = allListeners;
+        this._pseudoClasses = pseudoClasses;
+ 
+        this._removeAllEventListeners(this);
+        this._applyAllPseudoClasses(this);
+        this._addAllEventListeners(this);
+
+        this._componentDidMount();
+    }
+
+    private _applyPseudoClasses(pseudoClasses: Record<string, boolean>) {
+        const element = document.getElementById(this.props.id) as HTMLInputElement;
+        element && Object.entries(pseudoClasses).forEach(
+            ([key, val]) => val && this._applyPseudoClass(key, element)
+        );
+    }
+
+    private _applyPseudoClass(pseudoClass: string, element: HTMLInputElement) {
+        switch(pseudoClass) {
+            case 'focus':
+                element.focus();
+                try {
+                    element.setSelectionRange(element.value.length, element.value.length);
+                } catch { };
+                return;
+            default:
+                return;
+        };
     }
 
     private _getFragmentChildId() {
@@ -170,8 +236,8 @@ export class Component<P extends Record<string, any> = {}> {
         }
     }
 
-    private _removeEventListeners(listeners: TEventListenerOrEventListenerArray) {
-        const element = this._template.content.firstElementChild;
+    private _removeEventListeners(listeners: TEventListenerRecord) {
+        const element = document.getElementById(this.props.id);
         Object.entries(listeners).forEach(
             ([key, val]) => Array.isArray(val) ? val.forEach(
                 listener => element?.removeEventListener(key, listener)
@@ -179,8 +245,8 @@ export class Component<P extends Record<string, any> = {}> {
         );
     }
 
-    private _addEventListeners(listeners: TEventListenerOrEventListenerArray) {
-        const element = this._template.content.firstElementChild;
+    private _addEventListeners(listeners: TEventListenerRecord) {
+        const element = document.getElementById(this.props.id);
         Object.entries(listeners).forEach(
             ([key, val]) => Array.isArray(val) ? val.forEach(
                 listener => element?.addEventListener(key, listener)
@@ -204,7 +270,10 @@ export class Component<P extends Record<string, any> = {}> {
     };
   
     public setProps(nextProps: P) {
+        const oldProps = cloneDeep(this.props);
         nextProps && Object.assign(this.props, nextProps);
+        const newProps = cloneDeep(this.props);
+        this.eventBus.emit(ComponentEvent.CDU, oldProps, newProps);
     };
   
     public getContent() {

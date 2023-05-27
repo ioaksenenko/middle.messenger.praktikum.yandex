@@ -10,7 +10,7 @@ export class Input extends Component<IInputProps> {
         type = InputType.text,
         name,
         value,
-        placeholder = " ",
+        placeholder,
         readonly,
         required,
         onChange,
@@ -19,7 +19,8 @@ export class Input extends Component<IInputProps> {
         size = Size.medium,
         color = Color.black,
         shape = Shape.rounded,
-        pattern
+        pattern,
+        focus = false
     }: IInputProps = {}) {
         super({
             id,
@@ -36,7 +37,8 @@ export class Input extends Component<IInputProps> {
             size,
             color,
             shape,
-            pattern
+            pattern,
+            focus
         }, template);
     }
 }

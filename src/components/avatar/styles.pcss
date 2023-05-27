@@ -11,10 +11,6 @@
     &__actions {
         display: none;
     }
-    &:hover .avatar__overlay,
-    &:hover .avatar__actions {
-        display: flex;
-    }
 
     &__actions {
         position: absolute;
@@ -22,5 +18,10 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 8001;
+    }
+
+    &:hover &__overlay,
+    &:hover &__actions {
+        display: flex;
     }
 }

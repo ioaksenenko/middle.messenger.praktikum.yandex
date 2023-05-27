@@ -26,6 +26,7 @@ export class ChatList extends Component<IChatListProps> {
     }
 
     private handleChatClick(event: MouseEvent) {
+        console.log('sdf');
         const element = event.currentTarget as HTMLDivElement;
         const chat = chats.find(chat => chat.id === element.id)
         this.props.setActiveChat && this.props.setActiveChat(chat);

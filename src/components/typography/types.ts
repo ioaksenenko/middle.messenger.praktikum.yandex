@@ -7,14 +7,14 @@ export enum TypographyVariant {
     h2 = "h2",
     h3 = "h3",
     h4 = "h4",
-    bodyL = "bodyL",
-    bodyM = "bodyM",
+    bodyL = "body-large",
+    bodyM = "body-middle",
     caption = "caption",
     description = "description",
-    accentXS = "accentXS",
-    accentS = "accentS",
-    accentM = "accentM",
-    accentL = "accentL"
+    accentXS = "accent-xsmall",
+    accentS = "accent-small",
+    accentM = "accent-middle",
+    accentL = "accent-large"
 };
 
 export enum TypographyTag {

@@ -19,14 +19,17 @@
         path {
             fill: var(--color-white);
         }
+
         span {
             color: var(--color-white);
         }
     }
+
     &_view-outline {
         path {
             fill: var(--color-black);
         }
+
         span {
             color: var(--color-black);
         }
@@ -35,226 +38,292 @@
     &_view-primary&_color-primary1 {
         background-color: var(--color-primary1);
     }
+
     &_view-primary&_color-primary2 {
         background-color: var(--color-primary2);
     }
+
     &_view-primary&_color-secondary1 {
         background-color: var(--color-secondary1);
     }
+
     &_view-primary&_color-secondary2 {
         background-color: var(--color-secondary2);
     }
+
     &_view-primary&_color-white {
         background-color: var(--color-white);
+
         path {
             fill: var(--color-black);
         }
+
         span {
             color: var(--color-black);
         }
     }
+
     &_view-primary&_color-black {
         background-color: var(--color-black);
     }
 
+    &_view-ghost&_color-primary1 {
+        color: var(--color-primary1);
+
+        &:hover {
+            background-color: var(--color-primary1-alpha5);
+        }
+
+        &:active {
+            background-color: var(--color-primary1-alpha10);
+        }
+
+        path {
+            fill: var(--color-primary1);
+        }
+
+        span {
+            color: var(--color-primary1);
+        }
+    }
+
+    &_view-ghost&_color-primary2 {
+        color: var(--color-primary2);
+
+        &:hover {
+            background-color: var(--color-primary2-alpha5);
+        }
+
+        &:active {
+            background-color: var(--color-primary2-alpha10);
+        }
+
+        path {
+            fill: var(--color-primary2);
+        }
+
+        span {
+            color: var(--color-primary2);
+        }
+    }
+
+    &_view-ghost&_color-secondary1 {
+        color: var(--color-secondary1);
+
+        &:hover {
+            background-color: var(--color-secondary1-alpha5);
+        }
+
+        &:active {
+            background-color: var(--color-secondary1-alpha10);
+        }
+
+        path {
+            fill: var(--color-secondary1);
+        }
+
+        span {
+            color: var(--color-secondary1);
+        }
+    }
+
+    &_view-ghost&_color-secondary2 {
+        color: var(--color-secondary2);
+
+        &:hover {
+            background-color: var(--color-secondary2-alpha5);
+        }
+
+        &:active {
+            background-color: var(--color-secondary2-alpha10);
+        }
+
+        path {
+            fill: var(--color-secondary2);
+        }
+
+        span {
+            color: var(--color-secondary2);
+        }
+    }
+
+    &_view-ghost&_color-white {
+        color: var(--color-white);
+
+        &:hover {
+            background-color: transparent;
+        }
+
+        &:active {
+            background-color: transparent;
+        }
+
+        path {
+            fill: var(--color-white);
+        }
+
+        span {
+            color: var(--color-white);
+        }
+    }
+
+    &_view-ghost&_color-black {
+        color: var(--color-black);
+
+        &:hover {
+            background-color: var(--color-black-alpha5);
+        }
+
+        &:active {
+            background-color: var(--color-black-alpha10);
+        }
+
+        path {
+            fill: var(--color-black);
+        }
+
+        span {
+            color: var(--color-black);
+        }
+    }
+
     &_view-outline&_color-primary1 {
         border: 2px solid var(--color-primary1);
+
         &:hover {
             color: var(--color-primary1);
+
             path {
                 fill: var(--color-primary1);
             }
+
             span {
                 color: var(--color-primary1);
             }
         }
     }
+
     &_view-outline&_color-primary2 {
         border: 2px solid var(--color-primary2);
+
         &:hover {
             color: var(--color-primary2);
+
             path {
                 fill: var(--color-primary2);
             }
+
             span {
                 color: var(--color-primary2);
             }
         }
     }
+
     &_view-outline&_color-secondary1 {
         border: 2px solid var(--color-secondary1);
+
         &:hover {
             color: var(--color-secondary1);
+
             path {
                 fill: var(--color-secondary1);
             }
+
             span {
                 color: var(--color-secondary1);
             }
         }
     }
+
     &_view-outline&_color-secondary2 {
         border: 2px solid var(--color-secondary2);
+
         &:hover {
             color: var(--color-secondary2);
+
             path {
                 fill: var(--color-secondary2);
             }
+
             span {
                 color: var(--color-secondary2);
             }
         }
     }
+
     &_view-outline&_color-white {
         border: 2px solid var(--color-white);
+
         &:hover {
             color: var(--color-white);
+
             path {
                 fill: var(--color-white);
             }
+
             span {
                 color: var(--color-white);
             }
         }
     }
+
     &_view-outline&_color-black {
         border: 2px solid var(--color-black);
+
         &:hover {
             color: var(--color-black);
+
             path {
                 fill: var(--color-black);
             }
+
             span {
                 color: var(--color-black);
             }
         }
     }
 
-    &_view-ghost&_color-primary1 {
-        color: var(--color-primary1);
-        &:hover {
-            background-color: var(--color-primary1-alpha5);
-        }
-        &:active {
-            background-color: var(--color-primary1-alpha10);
-        }
-        path {
-            fill: var(--color-primary1);
-        }
-        span {
-            color: var(--color-primary1);
-        }
-    }
-    &_view-ghost&_color-primary2 {
-        color: var(--color-primary2);
-        &:hover {
-            background-color: var(--color-primary2-alpha5);
-        }
-        &:active {
-            background-color: var(--color-primary2-alpha10);
-        }
-        path {
-            fill: var(--color-primary2);
-        }
-        span {
-            color: var(--color-primary2);
-        }
-    }
-    &_view-ghost&_color-secondary1 {
-        color: var(--color-secondary1);
-        &:hover {
-            background-color: var(--color-secondary1-alpha5);
-        }
-        &:active {
-            background-color: var(--color-secondary1-alpha10);
-        }
-        path {
-            fill: var(--color-secondary1);
-        }
-        span {
-            color: var(--color-secondary1);
-        }
-    }
-    &_view-ghost&_color-secondary2 {
-        color: var(--color-secondary2);
-        &:hover {
-            background-color: var(--color-secondary2-alpha5);
-        }
-        &:active {
-            background-color: var(--color-secondary2-alpha10);
-        }
-        path {
-            fill: var(--color-secondary2);
-        }
-        span {
-            color: var(--color-secondary2);
-        }
-    }
-    &_view-ghost&_color-white {
-        color: var(--color-white);
-        &:hover {
-            background-color: transparent;
-        }
-        &:active {
-            background-color: transparent;
-        }
-        path {
-            fill: var(--color-white);
-        }
-        span {
-            color: var(--color-white);
-        }
-    }
-    &_view-ghost&_color-black {
-        color: var(--color-black);
-        &:hover {
-            background-color: var(--color-black-alpha5);
-        }
-        &:active {
-            background-color: var(--color-black-alpha10);
-        }
-        path {
-            fill: var(--color-black);
-        }
-        span {
-            color: var(--color-black);
-        }
-    }
-
     &_size-small {
         height: 32px;
-        padding: 0px 12px;
+        padding: 0 12px;
+
         &:has(svg) {
             min-width: 32px;
             max-width: 32px;
-            padding: 0px;
+            padding: 0;
         }
     }
+
     &_size-medium {
         height: 48px;
-        padding: 0px 24px;
+        padding: 0 24px;
+
         &:has(svg) {
             min-width: 48px;
             max-width: 48px;
-            padding: 0px;
+            padding: 0;
         }
     }
+
     &_size-large {
         height: 56px;
-        padding: 0px 40px;
+        padding: 0 40px;
+
         &:has(svg) {
             min-width: 56px;
             max-width: 56px;
-            padding: 0px;
+            padding: 0;
         }
     }
 
     &_shape-geometric {
-        border-radius: 0px;
+        border-radius: 0;
     }
+
     &_shape-rounded {
         border-radius: 8px;
     }
+
     &_shape-circular {
         border-radius: 32px;
     }

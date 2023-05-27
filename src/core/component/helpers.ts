@@ -27,3 +27,9 @@ export const isComponentOrComponentArray = (arg: unknown): arg is TComponentOrCo
 export const isEventListenerOrEventListenerArray = (key: string, arg: unknown): arg is TEventListenerOrEventListenerArray => {
     return key.startsWith('on') && (typeof arg === 'function' || Array.isArray(arg) && arg.every(el => typeof el === 'function'));
 };
+
+const pseudoClasses = ['focus'];
+
+export const isPseudoClass = (key: string, arg: unknown): arg is boolean => {
+    return pseudoClasses.includes(key) && typeof arg === 'boolean';
+}

@@ -21,4 +21,5 @@ export interface IInputProps extends Omit<IComponentProps, "children"> {
     color?: Color;
     shape?: Shape;
     pattern?: string;
+    focus?: boolean;
 };
