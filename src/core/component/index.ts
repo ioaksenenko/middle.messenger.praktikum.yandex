@@ -1,8 +1,8 @@
-import { TemplateDelegate, compile } from "handlebars";
-import {v4 as makeUUID} from "uuid";
+import { compile } from "handlebars";
+import { v4 as makeUUID } from "uuid";
 import { identity } from "../../helpers";
 import { EventBus } from "../event-bus";
-
+import { ComponentEvent } from "./types";
 import {
     cloneDeep,
     isComponentOrComponentArray,
@@ -10,36 +10,34 @@ import {
     isPseudoClass
 } from "./helpers";
 
-import {
+import type { TemplateDelegate } from "handlebars";
+import type {
     IComponentProps,
-    ComponentEvent,
     TComponentOrComponentArray,
     TEventListenerOrEventListenerArray,
     TComponentRecord,
-    TEventListenerRecord,
+    TEventListenerRecord
 } from "./types";
 
-export class Component<P extends Record<string, any> = {}> {
+export class Component<P extends Record<string, any> = IComponentProps> {
     private _template: HTMLTemplateElement;
     protected eventBus: EventBus;
     private _components: TComponentRecord;
     private _listeners: TEventListenerRecord;
     private _pseudoClasses: Record<string, boolean>;
-    public id: string;
-    
-    constructor(protected props: P = {} as P, protected templateDelegate: TemplateDelegate | undefined = undefined) {
-        this.id = props.id || makeUUID();
+
+    constructor(protected props: P = {} as any, protected templateDelegate: TemplateDelegate | undefined = undefined) {
         this.props = this._makePropsProxy({
             ...props,
-            id: this.id
+            id: props.id ?? makeUUID()
         });
-        this.templateDelegate = templateDelegate || compile("{{{ children }}}");
+        this.templateDelegate = templateDelegate ?? compile("{{{ children }}}");
         this.eventBus = new EventBus();
         this._registerEvents();
         this.eventBus.emit(ComponentEvent.INIT);
     }
 
-    private _makePropsProxy(props: P) {
+    private _makePropsProxy(props: P): P {
         return new Proxy(props, {
             get: (target: P, prop: string) => {
                 const value = target[prop];
@@ -54,24 +52,28 @@ export class Component<P extends Record<string, any> = {}> {
             }
         });
     }
-    
-    private _registerEvents() {
+
+    private _registerEvents(): void {
         this.eventBus.on(ComponentEvent.INIT, this._init.bind(this));
         this.eventBus.on(ComponentEvent.RENDER, this._render.bind(this));
         this.eventBus.on(ComponentEvent.CDM, this._componentDidMount.bind(this));
         this.eventBus.on(ComponentEvent.CDU, this._componentDidUpdate.bind(this));
     }
-  
-    private _init() {
+
+    private _init(): void {
         this._template = this._createDocumentElement("template") as HTMLTemplateElement;
         this.eventBus.emit(ComponentEvent.RENDER);
     }
 
-    private _createDocumentElement(tagName: string) {
+    private _createDocumentElement(tagName: string): HTMLElement {
         return document.createElement(tagName);
     }
 
-    protected getComponentsAndListeners<T extends Record<string, any> = {}>(context: T) {
+    protected getComponentsAndListeners<T extends Record<string, any> = IComponentProps>(context: T): {
+        components: TComponentRecord;
+        listeners: TEventListenerRecord;
+        pseudoClasses: Record<string, boolean>;
+    } {
         const components: TComponentRecord = {};
         const listeners: TEventListenerRecord = {};
         const pseudoClasses: Record<string, boolean> = {};
@@ -84,66 +86,84 @@ export class Component<P extends Record<string, any> = {}> {
                 pseudoClasses[key] = context[key];
             }
         });
-        return {components, listeners, pseudoClasses};
+        return { components, listeners, pseudoClasses };
     }
 
-    private _removeAllEventListeners(component: Component) {
-        component?._listeners && component._removeEventListeners(component._listeners);
-        component?._components && Object.values(component._components).forEach(
-            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
-                ? componentOrComponentArray.forEach(
-                    component => this._removeAllEventListeners(component)
-                ) : this._removeAllEventListeners(componentOrComponentArray)
+    private _removeAllEventListeners(component: Component): void {
+        typeof component?._listeners !== "undefined" && component._removeEventListeners(component._listeners);
+        typeof component?._components !== "undefined" && Object.values(component._components).forEach(
+            (componentOrComponentArray) => {
+                Array.isArray(componentOrComponentArray)
+                    ? componentOrComponentArray.forEach(
+                        component => {
+                            this._removeAllEventListeners(component);
+                        }
+                    )
+                    : this._removeAllEventListeners(componentOrComponentArray);
+            }
         );
     }
 
-    private _addAllEventListeners(component: Component) {
-        component?._listeners && component._addEventListeners(component._listeners);
-        component?._components && Object.values(component._components).forEach(
-            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
-                ? componentOrComponentArray.forEach(
-                    component => this._addAllEventListeners(component)
-                ) : this._addAllEventListeners(componentOrComponentArray)
+    private _addAllEventListeners(component: Component): void {
+        typeof component?._listeners !== "undefined" && component._addEventListeners(component._listeners);
+        typeof component?._components !== "undefined" && Object.values(component._components).forEach(
+            (componentOrComponentArray) => {
+                Array.isArray(componentOrComponentArray)
+                    ? componentOrComponentArray.forEach(
+                        component => {
+                            this._addAllEventListeners(component);
+                        }
+                    )
+                    : this._addAllEventListeners(componentOrComponentArray);
+            }
         );
     }
 
-    private _applyAllPseudoClasses(component: Component) {
-        component?._pseudoClasses && component._applyPseudoClasses(component._pseudoClasses);
-        component?._components && Object.values(component._components).forEach(
-            (componentOrComponentArray) => Array.isArray(componentOrComponentArray)
-                ? componentOrComponentArray.forEach(
-                    component => this._applyAllPseudoClasses(component)
-                ) : this._applyAllPseudoClasses(componentOrComponentArray)
+    private _applyAllPseudoClasses(component: Component): void {
+        typeof component?._pseudoClasses !== "undefined" && component._applyPseudoClasses(component._pseudoClasses);
+        typeof component?._components !== "undefined" && Object.values(component._components).forEach(
+            (componentOrComponentArray) => {
+                Array.isArray(componentOrComponentArray)
+                    ? componentOrComponentArray.forEach(
+                        component => {
+                            this._applyAllPseudoClasses(component);
+                        }
+                    )
+                    : this._applyAllPseudoClasses(componentOrComponentArray);
+            }
         );
     }
-    
-    private _render() {
+
+    private _render(): void {
         this._removeAllEventListeners(this);
 
         const content = this.render();
 
-        const context = {...cloneDeep(this.props), children: content};
+        const context = { ...cloneDeep(this.props), children: content };
         const { components, listeners, pseudoClasses } = this.getComponentsAndListeners(context);
         const internalListeners = this._getInternalListeners();
         const allListeners = Object.fromEntries(
             Object.entries(listeners).map(
-                ([key, val]) => internalListeners[key]
+                ([key, val]) => typeof internalListeners[key] !== "undefined"
                     ? (
                         [key, Array.isArray(val)
                             ? [...val, internalListeners[key]]
                             : [val, internalListeners[key]]]
-                    ) : [key, val]
+                    )
+                    : [key, val]
             ).concat(
                 Object.entries(internalListeners).filter(
-                    ([key, _]) => !listeners[key]
+                    ([key, _]) => typeof internalListeners[key] === "undefined"
                 )
             )
         );
 
         Object.entries(components).forEach(([key, val]) => {
-            (context as Record<string, any>)[key] = Array.isArray(val) ? val.filter(identity).map(
-                component => this._renderStub(component)
-            ).join('') : this._renderStub(val);
+            (context as Record<string, any>)[key] = Array.isArray(val)
+                ? val.filter(identity).map(
+                    component => this._renderStub(component)
+                ).join("")
+                : this._renderStub(val);
         });
 
         if (this.templateDelegate) {
@@ -157,15 +177,25 @@ export class Component<P extends Record<string, any> = {}> {
             }
 
             Object.values(components).forEach(val => {
-                Array.isArray(val) ? val.filter(identity).forEach(
-                    component => this._replaceStub(component)
-                ) : this._replaceStub(val);
+                Array.isArray(val)
+                    ? val.filter(identity).forEach(
+                        component => {
+                            this._replaceStub(component);
+                        }
+                    )
+                    : this._replaceStub(val);
             });
-            
+
             Object.entries(listeners).forEach(
-                ([key, val]) => Array.isArray(val) ? val.forEach(
-                    listener => this._template.content.firstElementChild?.addEventListener(key, listener)
-                ) : this._template.content.firstElementChild?.addEventListener(key, val)
+                ([key, val]) => {
+                    Array.isArray(val)
+                        ? val.forEach(
+                            listener => {
+                                this._template.content.firstElementChild?.addEventListener(key, listener);
+                            }
+                        )
+                        : this._template.content.firstElementChild?.addEventListener(key, val);
+                }
             );
 
             const oldElement = document.getElementById(this.props.id);
@@ -173,17 +203,17 @@ export class Component<P extends Record<string, any> = {}> {
             if (oldElement) {
                 newElement && oldElement.replaceWith(newElement);
             } else {
-                const id =  this._getFragmentChildId();
+                const id = this._getFragmentChildId();
                 id && newElement && document.getElementById(id)?.replaceWith(newElement);
             }
         }
-        
+
         this._setAttributes();
 
         this._components = components;
         this._listeners = allListeners;
         this._pseudoClasses = pseudoClasses;
- 
+
         this._removeAllEventListeners(this);
         this._applyAllPseudoClasses(this);
         this._addAllEventListeners(this);
@@ -191,29 +221,28 @@ export class Component<P extends Record<string, any> = {}> {
         this._componentDidMount();
     }
 
-    private _applyPseudoClasses(pseudoClasses: Record<string, boolean>) {
+    private _applyPseudoClasses(pseudoClasses: Record<string, boolean>): void {
         const element = document.getElementById(this.props.id) as HTMLInputElement;
         element && Object.entries(pseudoClasses).forEach(
-            ([key, val]) => val && this._applyPseudoClass(key, element)
+            ([key, val]) => {
+                val && this._applyPseudoClass(key, element);
+            }
         );
     }
 
-    private _applyPseudoClass(pseudoClass: string, element: HTMLInputElement) {
-        switch(pseudoClass) {
-            case 'focus':
+    private _applyPseudoClass(pseudoClass: string, element: HTMLInputElement): void {
+        switch (pseudoClass) {
+            case "focus":
                 element.focus();
                 try {
                     element.setSelectionRange(element.value.length, element.value.length);
-                } catch { };
-                return;
-            default:
-                return;
-        };
+                } catch { }
+        }
     }
 
-    private _getFragmentChildId() {
+    private _getFragmentChildId(): string | undefined {
         if (!Array.isArray(this._components?.children)) {
-            const props = this._components?.children.props as {id: string};
+            const props = this._components?.children.props as { id: string };
             return props?.id;
         }
     }
@@ -222,70 +251,80 @@ export class Component<P extends Record<string, any> = {}> {
         return this.props.children;
     }
 
-    private _renderStub<T extends IComponentProps = {}>(component: Component<T>) {
+    private _renderStub<T extends IComponentProps = IComponentProps>(component: Component<T>): string {
         const element = component.props.id && document.getElementById(component.props.id);
         if (element) {
             component._template.content.appendChild(element);
         }
-        return `<div id="${component.props.id}"></div>`;
+        return component.props.id ? `<div id="${component.props.id}"></div>` : "";
     }
 
-    private _replaceStub<T extends IComponentProps = {}>(component: Component<T>) {
+    private _replaceStub<T extends IComponentProps = IComponentProps>(component: Component<T>): void {
         if (component.props.id) {
             this._template.content.getElementById(component.props.id)?.replaceWith(component.getContent());
         }
     }
 
-    private _removeEventListeners(listeners: TEventListenerRecord) {
+    private _removeEventListeners(listeners: TEventListenerRecord): void {
         const element = document.getElementById(this.props.id);
         Object.entries(listeners).forEach(
-            ([key, val]) => Array.isArray(val) ? val.forEach(
-                listener => element?.removeEventListener(key, listener)
-            ) : element?.removeEventListener(key, val)
+            ([key, val]) => {
+                Array.isArray(val)
+                    ? val.forEach(
+                        listener => element?.removeEventListener(key, listener)
+                    )
+                    : element?.removeEventListener(key, val);
+            }
         );
     }
 
-    private _addEventListeners(listeners: TEventListenerRecord) {
+    private _addEventListeners(listeners: TEventListenerRecord): void {
         const element = document.getElementById(this.props.id);
         Object.entries(listeners).forEach(
-            ([key, val]) => Array.isArray(val) ? val.forEach(
-                listener => element?.addEventListener(key, listener)
-            ) : element?.addEventListener(key, val)
+            ([key, val]) => {
+                Array.isArray(val)
+                    ? val.forEach(
+                        listener => element?.addEventListener(key, listener)
+                    )
+                    : element?.addEventListener(key, val);
+            }
         );
     }
-    
-    private _componentDidMount() {
+
+    private _componentDidMount(): void {
         this.componentDidMount();
     }
-    
-    protected componentDidMount() {};
-  
-    private _componentDidUpdate(oldProps: P, newProps: P) {
+
+    protected componentDidMount(): void { }
+
+    private _componentDidUpdate(oldProps: P, newProps: P): void {
         const response = this.componentDidUpdate(oldProps, newProps);
         response && this.eventBus.emit(ComponentEvent.RENDER);
     }
-  
-    protected componentDidUpdate(oldProps: P, newProps: P) {
+
+    protected componentDidUpdate(oldProps: P, newProps: P): boolean {
         return true;
-    };
-  
-    public setProps(nextProps: P) {
+    }
+
+    public setProps(nextProps: P): void {
         const oldProps = cloneDeep(this.props);
         nextProps && Object.assign(this.props, nextProps);
         const newProps = cloneDeep(this.props);
         this.eventBus.emit(ComponentEvent.CDU, oldProps, newProps);
-    };
-  
-    public getContent() {
+    }
+
+    public getContent(): DocumentFragment {
         return this._template.content;
     }
 
-    private _setAttributes() {
+    private _setAttributes(): void {
         const element = this._template.content.firstElementChild;
         if (element) {
             const attrs = this.getAttributes();
             Object.entries(attrs).forEach(
-                ([key, val]) => element.setAttribute(key, val)
+                ([key, val]) => {
+                    element.setAttribute(key, val);
+                }
             );
         }
     }

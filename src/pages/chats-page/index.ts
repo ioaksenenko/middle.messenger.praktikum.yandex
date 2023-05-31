@@ -1,16 +1,17 @@
 import { Component } from "../../core";
-import { IChatsPageProps } from "./types";
 import { Avatar, Box, ChatList, InputBox, Link, Page, User, MessageList } from "../../components";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Color, Shape, Size } from "../../types";
 import { SearchIcon } from "../../icons";
 import { BoxFlexDirection, BoxHeight, BoxWidth } from "../../components/box/types";
-import { IChat } from "../../data";
 import { MessageInputBox } from "../../components/message-input-box";
 
+import type { IChatsPageProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
+import type { IChat } from "../../data";
+
 export class ChatsPage extends Component<IChatsPageProps> {
-    constructor({activeChat, messages}: IChatsPageProps = {}) {
-        super({activeChat, messages});
+    constructor({ activeChat, messages }: IChatsPageProps = {}) {
+        super({ activeChat, messages });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -64,16 +65,16 @@ export class ChatsPage extends Component<IChatsPageProps> {
                         this.props.activeChat && new MessageInputBox({
                             activeChat: this.props.activeChat,
                             setActiveChat: this.setActiveChat.bind(this)
-                        }) 
+                        })
                     ]
                 })
             ]
-        })
+        });
     }
 
-    private setActiveChat(chat: IChat) {
+    private setActiveChat(chat: IChat): void {
         this.setProps({
             activeChat: chat
-        })
+        });
     }
 }

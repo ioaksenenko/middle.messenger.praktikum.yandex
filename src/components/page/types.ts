@@ -1,3 +1,3 @@
-import { IBoxProps } from "../box/types";
+import type { IBoxProps } from "../box/types";
 
-export interface IPageProps extends Omit<IBoxProps, "tag"> { }
+export type IPageProps = Omit<IBoxProps, "tag">;

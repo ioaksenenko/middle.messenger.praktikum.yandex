@@ -1,9 +1,10 @@
 import { Component } from "../../core";
-import { IOverlayProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Box } from "../box";
 import { BoxHeight, BoxPosition, BoxWidth } from "../box/types";
 import { classNames } from "../../helpers";
+
+import type { IOverlayProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Overlay extends Component<IOverlayProps> {
     protected render(): TComponentOrComponentArray {
@@ -12,6 +13,6 @@ export class Overlay extends Component<IOverlayProps> {
             height: BoxHeight.full,
             position: BoxPosition.absolute,
             className: classNames("overlay", this.props.className)
-        }) 
+        });
     }
 }

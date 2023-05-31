@@ -1,15 +1,16 @@
 import { Component } from "../../core";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Color } from "../../types";
 import { Box } from "../box";
-import { BoxAlignItems, BoxFlexDirection, BoxGap, BoxHeight, BoxOverflow, BoxPadding, BoxWidth } from "../box/types";
+import { BoxAlignItems, BoxFlexDirection, BoxGap, BoxOverflow, BoxPadding, BoxWidth } from "../box/types";
 import { Typography } from "../typography";
 import { TypographyVariant } from "../typography/types";
-import { IUserProps } from "./types";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
+import type { IUserProps } from "./types";
 
 export class User extends Component<IUserProps> {
-    constructor({id, className, children, avatar}: IUserProps) {
-        super({id, className, children, avatar});
+    constructor({ id, className, children, avatar }: IUserProps) {
+        super({ id, className, children, avatar });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -31,6 +32,6 @@ export class User extends Component<IUserProps> {
                         children: this.props.children
                     })
             ]
-        })
+        });
     }
 }

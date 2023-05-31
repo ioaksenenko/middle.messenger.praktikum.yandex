@@ -1,6 +1,6 @@
-import { IComponentProps } from "../../core/component/types";
-import { IChat } from "../../data";
+import type { IComponentProps } from "../../core/component/types";
+import type { IChat } from "../../data";
 
 export interface IMessageListProps extends IComponentProps {
     activeChat?: IChat;
-};
+}

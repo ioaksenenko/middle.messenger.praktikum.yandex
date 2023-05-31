@@ -1,5 +1,5 @@
-import { IComponentProps } from "../../core/component/types";
-import { Color, Size, Shape } from "../../types";
+import type { IComponentProps } from "../../core/component/types";
+import type { Color, Size, Shape } from "../../types";
 
 export enum InputType {
     text = "text",
@@ -22,4 +22,4 @@ export interface IInputProps extends Omit<IComponentProps, "children"> {
     shape?: Shape;
     pattern?: string;
     focus?: boolean;
-};
+}

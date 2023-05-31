@@ -1,13 +1,13 @@
 import { Component } from "../../core";
 import { Page, Typography, Form, InputBox, Button, QuestionLink } from "../../components";
-import { TypographyVariant } from "../../components/typography/types";
-import { TComponentOrComponentArray } from "../../core/component/types";
+import { TypographyVariant, TypographyTag } from "../../components/typography/types";
 import { InputType } from "../../components/input/types";
-import { TypographyTag } from "../../components/typography/types";
 import { ButtonType } from "../../components/button/types";
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/types";
 import { loginValidatorRule, passwordValidatorRule } from "../../helpers/validators";
 import { FormMethod } from "../../components/form/types";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class LoginPage extends Component {
     protected render(): TComponentOrComponentArray {
@@ -40,7 +40,7 @@ export class LoginPage extends Component {
                         new Button({
                             type: ButtonType.submit,
                             children: "Войти",
-                            className: "login-page__submit",
+                            className: "login-page__submit"
                         })
                     ]
                 }),
@@ -50,16 +50,16 @@ export class LoginPage extends Component {
                     children: "Зарегистрироваться"
                 })
             ]
-        })
+        });
     }
 
-    private handleFormSubmit(event: SubmitEvent) {
+    private handleFormSubmit(event: SubmitEvent): void {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         formData.forEach(
             (value, key) => {
-                console.log(key, value)
+                console.log(key, value);
             }
         );
     }

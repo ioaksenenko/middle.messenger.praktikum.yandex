@@ -21,12 +21,12 @@ export interface IChat {
     source: IUser;
     target: IUser;
     id: string;
-    messages: Array<IMessage>;
+    messages: IMessage[];
     avatar?: string;
     title: string;
-};
+}
 
-export const users: Array<IUser> = [{
+export const users: IUser[] = [{
     id: "990d721b-e5ab-4630-bc3c-9eaad3107505",
     email: "ioaksenenko@gmail.com",
     login: "ioaksenenko",
@@ -51,13 +51,13 @@ export const users: Array<IUser> = [{
     avatar: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663644397_8-mykaleidoscope-ru-p-spokoinii-paren-krasivo-8.jpg"
 }];
 
-export const messages: Array<IMessage> = [{
+export const messages: IMessage[] = [{
     chatId: "9b172465-3899-423f-8c45-0558bbeb55d8",
     id: "948874b8-1c05-4fe7-9e93-d485d9317418",
     sender: users[0],
     recipient: users[1],
     date: "2023-05-25T03:13:29.419Z",
-    message: "Привет!",
+    message: "Привет!"
 }, {
     chatId: "9b172465-3899-423f-8c45-0558bbeb55d8",
     id: "5d2cf146-7641-46b0-b3bb-8b661d07d413",
@@ -88,7 +88,7 @@ export const messages: Array<IMessage> = [{
     message: "Ну вот и пообщались."
 }];
 
-export const chats: Array<IChat> = [{
+export const chats: IChat[] = [{
     source: users[0],
     target: users[1],
     id: "9b172465-3899-423f-8c45-0558bbeb55d8",
@@ -106,6 +106,6 @@ export const chats: Array<IChat> = [{
     ),
     avatar: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663644397_8-mykaleidoscope-ru-p-spokoinii-paren-krasivo-8.jpg",
     title: "Имя 2 Фамилия 2"
-}]
+}];
 
 export const currentUserId = "990d721b-e5ab-4630-bc3c-9eaad3107505";

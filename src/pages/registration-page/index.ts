@@ -1,9 +1,7 @@
 import { Component } from "../../core";
 import { Page, Typography, Form, InputBox, Button, QuestionLink } from "../../components";
-import { TypographyVariant } from "../../components/typography/types";
-import { TComponentOrComponentArray } from "../../core/component/types";
+import { TypographyVariant, TypographyTag } from "../../components/typography/types";
 import { InputType } from "../../components/input/types";
-import { TypographyTag } from "../../components/typography/types";
 import { ButtonType } from "../../components/button/types";
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/types";
 import { FormMethod } from "../../components/form/types";
@@ -14,6 +12,8 @@ import {
     passwordValidatorRule,
     phoneValidatorRule
 } from "../../helpers/validators";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class RegistrationPage extends Component {
     protected render(): TComponentOrComponentArray {
@@ -82,16 +82,16 @@ export class RegistrationPage extends Component {
                     children: "Войти"
                 })
             ]
-        })
+        });
     }
 
-    private handleFormSubmit(event: SubmitEvent) {
+    private handleFormSubmit(event: SubmitEvent): void {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         formData.forEach(
             (value, key) => {
-                console.log(key, value)
+                console.log(key, value);
             }
         );
     }

@@ -1,4 +1,4 @@
-import { IComponentProps } from "../../core/component/types";
+import type { IComponentProps } from "../../core/component/types";
 
 export interface IChatProps extends IComponentProps {
     avatar?: string;
@@ -8,4 +8,4 @@ export interface IChatProps extends IComponentProps {
     onClick?: EventListener;
     chatId?: string;
     active?: boolean;
-};
+}

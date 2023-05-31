@@ -1,13 +1,14 @@
 import { Component } from "../../core";
-import { IChatListProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { chats, currentUserId } from "../../data";
 import { Chat } from "../chat";
 import { last } from "../../helpers";
 
+import type { IChatListProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
+
 export class ChatList extends Component<IChatListProps> {
-    constructor({id, className, activeChat, setActiveChat}: IChatListProps) {
-        super({id, className, activeChat, setActiveChat});
+    constructor({ id, className, activeChat, setActiveChat }: IChatListProps) {
+        super({ id, className, activeChat, setActiveChat });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -22,13 +23,12 @@ export class ChatList extends Component<IChatListProps> {
                 onClick: this.handleChatClick.bind(this),
                 active: this.props.activeChat?.id === chat.id
             });
-        })
+        });
     }
 
-    private handleChatClick(event: MouseEvent) {
-        console.log('sdf');
+    private handleChatClick(event: MouseEvent): void {
         const element = event.currentTarget as HTMLDivElement;
-        const chat = chats.find(chat => chat.id === element.id)
-        this.props.setActiveChat && this.props.setActiveChat(chat);
+        const chat = chats.find(chat => chat.id === element.id);
+        this.props.setActiveChat?.(chat);
     }
 }

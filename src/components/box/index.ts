@@ -1,6 +1,8 @@
 import { Component } from "../../core";
-import { IBoxProps, BoxTag, BoxDisplay, BoxFlexDirection, BoxAlignItems, BoxJustifyContent, BoxHeight, BoxWidth, BoxOverflow } from "./types";
+import { BoxTag, BoxDisplay, BoxFlexDirection, BoxAlignItems, BoxJustifyContent, BoxHeight, BoxWidth, BoxOverflow } from "./types";
 import template from "./template.hbs";
+
+import type { IBoxProps } from "./types";
 
 export class Box extends Component<IBoxProps> {
     constructor({

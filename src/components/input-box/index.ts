@@ -1,6 +1,4 @@
 import { Component } from "../../core";
-import { IInputBoxProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Box } from "../box";
 import { BoxGap, BoxPosition, BoxWidth } from "../box/types";
 import { Input } from "../input";
@@ -10,6 +8,9 @@ import { Color, IconPosition, Shape, Size } from "../../types";
 import { Button } from "../button";
 import { ButtonView } from "../button/types";
 import { Typography } from "../typography";
+
+import type { IInputBoxProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class InputBox extends Component<IInputBoxProps> {
     constructor({
@@ -115,10 +116,10 @@ export class InputBox extends Component<IInputBoxProps> {
                     children: this.props.error
                 })
             ]
-        })
+        });
     }
 
-    protected handleInputChange(event: InputEvent) {
+    protected handleInputChange(event: InputEvent): void {
         const target = event.target as HTMLInputElement;
         this.setProps({
             value: target.value
@@ -126,10 +127,10 @@ export class InputBox extends Component<IInputBoxProps> {
         this.handleInputBlur(event);
     }
 
-    protected handleInputBlur(event: Event) {
+    protected handleInputBlur(event: Event): void {
         this.setProps({
             isFocused: false
-        })
+        });
         const target = event.target as HTMLInputElement;
         if (this.props.validationRules) {
             this.setProps({
@@ -140,15 +141,15 @@ export class InputBox extends Component<IInputBoxProps> {
                 if (!isValid) {
                     this.setProps({
                         error: rule.error
-                    })
+                    });
                 }
-            })
+            });
         }
     }
 
-    protected handleInputFocus() {
+    protected handleInputFocus(): void {
         this.setProps({
             isFocused: true
-        })
+        });
     }
 }

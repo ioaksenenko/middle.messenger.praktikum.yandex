@@ -1,10 +1,12 @@
 import { Component } from "../../core";
-import { IButtonProps, ButtonType, ButtonView } from "./types";
 import template from "./template.hbs";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Typography } from "../typography";
 import { TypographyTag, TypographyVariant } from "../typography/types";
 import { Color, Shape, Size } from "../../types";
+import { ButtonType, ButtonView } from "./types";
+
+import type { IButtonProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Button extends Component<IButtonProps> {
     constructor({
@@ -32,12 +34,14 @@ export class Button extends Component<IButtonProps> {
     }
 
     protected render(): TComponentOrComponentArray {
-        return typeof this.props.children === "string" ? new Typography({
-            tag: TypographyTag.span,
-            variant: this.props.size === Size.small
-                ? TypographyVariant.accentS
-                : TypographyVariant.accentM,
-            children: this.props.children
-        }) : this.props.children
+        return typeof this.props.children === "string"
+            ? new Typography({
+                tag: TypographyTag.span,
+                variant: this.props.size === Size.small
+                    ? TypographyVariant.accentS
+                    : TypographyVariant.accentM,
+                children: this.props.children
+            })
+            : this.props.children;
     }
 }

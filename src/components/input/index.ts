@@ -1,7 +1,9 @@
 import { Component } from "../../core";
-import { IInputProps, InputType } from "./types";
+import { InputType } from "./types";
 import template from "./template.hbs";
 import { Color, Size, Shape } from "../../types";
+
+import type { IInputProps } from "./types";
 
 export class Input extends Component<IInputProps> {
     constructor({

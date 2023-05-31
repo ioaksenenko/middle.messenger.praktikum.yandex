@@ -1,9 +1,10 @@
 import { Component } from "../../core";
-import { ILinkProps } from "./types";
 import { Typography } from "../typography";
 import { TypographyTag, TypographyVariant } from "../typography/types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Color } from "../../types";
+
+import type { ILinkProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Link extends Component<ILinkProps> {
     constructor({
@@ -14,7 +15,7 @@ export class Link extends Component<ILinkProps> {
         color = Color.primary1,
         href
     }: ILinkProps) {
-        super({id, className, children, href, variant, color});
+        super({ id, className, children, href, variant, color });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -30,6 +31,6 @@ export class Link extends Component<ILinkProps> {
     protected getAttributes(): Record<string, string> {
         return {
             href: this.props.href
-        }
+        };
     }
 }

@@ -3,11 +3,12 @@ import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/t
 import { ButtonView } from "../../components/button/types";
 import { InputType } from "../../components/input/types";
 import { Component } from "../../core";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { emailValidatorRule, loginValidatorRule, nameValidatorRule, passwordValidatorRule, phoneValidatorRule } from "../../helpers/validators";
 import { ArrowLeftIcon, EditIcon, TrashIcon, UploadIcon, CheckIcon } from "../../icons";
 import { Color, IconPosition } from "../../types";
-import { IProfilePageProps } from "./types";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
+import type { IProfilePageProps } from "./types";
 
 export class ProfilePage extends Component<IProfilePageProps> {
     constructor() {
@@ -18,7 +19,7 @@ export class ProfilePage extends Component<IProfilePageProps> {
             lastNameIsEditing: false,
             phoneIsEditing: false,
             passwordIsEditing: false
-        })
+        });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -38,12 +39,12 @@ export class ProfilePage extends Component<IProfilePageProps> {
                         new Button({
                             children: new UploadIcon(),
                             view: ButtonView.ghost,
-                            color: Color.white,
+                            color: Color.white
                         }),
                         new Button({
                             children: new TrashIcon(),
                             view: ButtonView.ghost,
-                            color: Color.white,
+                            color: Color.white
                         })
                     ]
                 }),
@@ -128,47 +129,47 @@ export class ProfilePage extends Component<IProfilePageProps> {
         });
     }
 
-    private handleClickBackButton() {
+    private handleClickBackButton(): void {
         document.location.href = "/chats/";
     }
 
-    private handleClickLogoutButton() {
+    private handleClickLogoutButton(): void {
         document.location.href = "/login/";
     }
 
-    private toggleEmailEditing() {
+    private toggleEmailEditing(): void {
         this.setProps({
             emailIsEditing: !this.props.emailIsEditing
-        })
+        });
     }
 
-    private toggleLoginEditing() {
+    private toggleLoginEditing(): void {
         this.setProps({
             loginIsEditing: !this.props.loginIsEditing
-        })
+        });
     }
 
-    private toggleFirstNameEditing() {
+    private toggleFirstNameEditing(): void {
         this.setProps({
             firstNameIsEditing: !this.props.firstNameIsEditing
-        })
+        });
     }
 
-    private toggleLastNameEditing() {
+    private toggleLastNameEditing(): void {
         this.setProps({
             lastNameIsEditing: !this.props.lastNameIsEditing
-        })
+        });
     }
 
-    private togglePhoneEditing() {
+    private togglePhoneEditing(): void {
         this.setProps({
             phoneIsEditing: !this.props.phoneIsEditing
-        })
+        });
     }
 
-    private togglePasswordEditing() {
+    private togglePasswordEditing(): void {
         this.setProps({
             passwordIsEditing: !this.props.passwordIsEditing
-        })
+        });
     }
 }

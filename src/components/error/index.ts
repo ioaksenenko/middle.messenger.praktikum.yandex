@@ -1,6 +1,4 @@
 import { Component } from "../../core";
-import { IErrorProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Box } from "../box";
 import { Typography } from "../typography";
 import { SadAvocado } from "../../images";
@@ -8,9 +6,12 @@ import { TypographyVariant } from "../typography/types";
 import { Link } from "../link";
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../box/types";
 
+import type { IErrorProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
+
 export class Error extends Component<IErrorProps> {
-    constructor({id, className, children, code}: IErrorProps) {
-        super({id, className, children, code});
+    constructor({ id, className, children, code }: IErrorProps) {
+        super({ id, className, children, code });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -35,6 +36,6 @@ export class Error extends Component<IErrorProps> {
                     children: "Вернуться к чатам"
                 })
             ]
-        })
+        });
     }
 }

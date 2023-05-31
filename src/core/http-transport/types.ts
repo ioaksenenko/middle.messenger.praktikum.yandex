@@ -16,4 +16,4 @@ export interface IRequestOptions {
     headers?: TRequestHeaders;
     data?: TRequestData;
     timeout?: number;
-};
+}

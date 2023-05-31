@@ -1,9 +1,10 @@
 import { Component } from "../../core";
-import { ILabelProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Typography } from "../typography";
 import { TypographyTag, TypographyVariant } from "../typography/types";
 import { Color } from "../../types";
+
+import type { ILabelProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Label extends Component<ILabelProps> {
     constructor({
@@ -31,7 +32,7 @@ export class Label extends Component<ILabelProps> {
             tag: TypographyTag.label,
             variant: this.props.variant,
             color: this.props.color
-        })
+        });
     }
 
     protected getAttributes(): Record<string, string> {

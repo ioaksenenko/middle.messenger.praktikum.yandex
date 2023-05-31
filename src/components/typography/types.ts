@@ -1,5 +1,5 @@
-import { IComponentProps } from "../../core/component/types";
-import { Color } from "../../types";
+import type { IComponentProps } from "../../core/component/types";
+import type { Color } from "../../types";
 
 export enum TypographyVariant {
     mega = "mega",
@@ -15,7 +15,7 @@ export enum TypographyVariant {
     accentS = "accent-small",
     accentM = "accent-middle",
     accentL = "accent-large"
-};
+}
 
 export enum TypographyTag {
     p = "p",

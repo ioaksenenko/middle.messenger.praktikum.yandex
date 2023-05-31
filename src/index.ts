@@ -9,8 +9,17 @@ import {
     ServerErrorPage
 } from "./pages";
 
-const getPage = () => {
-    switch(location.pathname) {
+export type TPage =
+    | NavigationPage
+    | LoginPage
+    | RegistrationPage
+    | ChatsPage
+    | ProfilePage
+    | NotFoundPage
+    | ServerErrorPage;
+
+const getPage = (): TPage => {
+    switch (location.pathname) {
         case "/":
             return new NavigationPage();
         case "/login/":
@@ -32,6 +41,6 @@ const getPage = () => {
 
 document.body.prepend(new Header().getContent());
 document.body.appendChild(new Footer().getContent());
-document.getElementById('root')?.replaceWith(
+document.getElementById("root")?.replaceWith(
     getPage().getContent()
 );

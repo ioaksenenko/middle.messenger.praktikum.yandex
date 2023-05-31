@@ -1,6 +1,5 @@
-import { TIcon } from "../../types";
-import { IInputProps } from "../input/types";
-import { IconPosition } from "../../types";
+import type { TIcon, IconPosition } from "../../types";
+import type { IInputProps } from "../input/types";
 
 export interface IValidationRule {
     error: string;
@@ -11,8 +10,8 @@ export interface IInputBoxProps extends Omit<IInputProps, "focus"> {
     label?: string;
     icon?: TIcon;
     iconPosition?: IconPosition;
-    validationRules?: Array<IValidationRule>;
+    validationRules?: IValidationRule[];
     error?: string;
     onIconClick?: EventListener;
     isFocused?: boolean;
-};
+}

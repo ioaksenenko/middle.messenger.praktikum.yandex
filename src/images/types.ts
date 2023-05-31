@@ -1,3 +1,3 @@
-import { IIconProps } from "../icons/types";
+import type { IIconProps } from "../icons/types";
 
-export interface IImageProps extends Omit<IIconProps, "fill"> {};
+export type IImageProps = Omit<IIconProps, "fill">;

@@ -1,3 +1,3 @@
-import { IBoxProps } from "../box/types";
+import type { IBoxProps } from "../box/types";
 
-export interface IOverlayProps extends Omit<IBoxProps, "width" | "height" | "position"> { };
+export type IOverlayProps = Omit<IBoxProps, "width" | "height" | "position">;

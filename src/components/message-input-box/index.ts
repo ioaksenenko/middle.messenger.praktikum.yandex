@@ -1,6 +1,4 @@
 import { Component } from "../../core";
-import { TComponentOrComponentArray } from "../../core/component/types";
-import { IMessageInputBoxProps } from "./types";
 import { Box } from "../box";
 import { BoxAlignItems, BoxJustifyContent, BoxFlexDirection, BoxGap, BoxWidth, BoxOverflow, BoxPadding } from "../box/types";
 import { Button } from "../button";
@@ -10,11 +8,14 @@ import { ButtonView, ButtonType } from "../button/types";
 import { Form } from "../form";
 import { FormMethod } from "../form/types";
 import { InputBox } from "../input-box";
-import {v4 as makeUUID} from "uuid";
+import { v4 as makeUUID } from "uuid";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
+import type { IMessageInputBoxProps } from "./types";
 
 export class MessageInputBox extends Component<IMessageInputBoxProps> {
-    constructor({id, className, children, activeChat, setActiveChat}: IMessageInputBoxProps) {
-        super({id, className, children, activeChat, setActiveChat});
+    constructor({ id, className, children, activeChat, setActiveChat }: IMessageInputBoxProps) {
+        super({ id, className, children, activeChat, setActiveChat });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -48,7 +49,7 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
                             required: true
                         }),
                         new Button({
-                            children: new ChevronRight({fill: Color.white}),
+                            children: new ChevronRight({ fill: Color.white }),
                             shape: Shape.circular,
                             color: Color.primary2,
                             size: Size.small,
@@ -60,7 +61,7 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
         });
     }
 
-    private handleFormSubmit(event: SubmitEvent) {
+    private handleFormSubmit(event: SubmitEvent): void {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
@@ -75,7 +76,7 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
                     sender: this.props.activeChat.source,
                     recipient: this.props.activeChat.target,
                     date: new Date().toISOString(),
-                    message: message
+                    message
                 }
             ]
         });

@@ -1,5 +1,5 @@
-import { IComponentProps } from "../../core/component/types";
-import { IUser } from "../../data";
+import type { IComponentProps } from "../../core/component/types";
+import type { IUser } from "../../data";
 
 export interface IMessageProps extends IComponentProps {
     children: string;

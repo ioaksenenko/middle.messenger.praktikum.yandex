@@ -1,6 +1,4 @@
 import { Component } from "../../core";
-import { IChatProps } from "./types";
-import { TComponentOrComponentArray } from "../../core/component/types";
 import { Box } from "../box";
 import { Avatar } from "../avatar";
 import { Typography } from "../typography";
@@ -9,9 +7,12 @@ import { Color } from "../../types";
 import { BoxFlexDirection, BoxGap, BoxJustifyContent, BoxPadding, BoxWidth } from "../box/types";
 import { classNames } from "../../helpers";
 
+import type { IChatProps } from "./types";
+import type { TComponentOrComponentArray } from "../../core/component/types";
+
 export class Chat extends Component<IChatProps> {
-    constructor({id, className, children, avatar, title, date, message, active, onClick}: IChatProps) {
-        super({chatId: id, className, children, avatar, title, date, message, active, onClick});
+    constructor({ id, className, children, avatar, title, date, message, active, onClick }: IChatProps) {
+        super({ chatId: id, className, children, avatar, title, date, message, active, onClick });
     }
 
     protected render(): TComponentOrComponentArray {
@@ -45,7 +46,7 @@ export class Chat extends Component<IChatProps> {
                                 new Typography({
                                     variant: TypographyVariant.caption,
                                     color: Color.secondary1,
-                                    children: this.props.date && new Date(this.props.date).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric"})
+                                    children: this.props.date && new Date(this.props.date).toLocaleString("ru-RU", { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" })
                                 })
                             ]
                         }),
@@ -63,6 +64,6 @@ export class Chat extends Component<IChatProps> {
                     ]
                 })
             ]
-        })
+        });
     }
 }

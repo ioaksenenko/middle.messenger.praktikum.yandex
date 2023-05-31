@@ -1,4 +1,4 @@
-import { IComponentProps } from "../../core/component/types";
+import type { IComponentProps } from "../../core/component/types";
 
 export enum BoxTag {
     div = "div",
@@ -82,4 +82,4 @@ export interface IBoxProps extends IComponentProps {
     position?: BoxPosition;
     padding?: BoxPadding;
     overflow?: BoxOverflow;
-};
+}

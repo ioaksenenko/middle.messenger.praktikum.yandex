@@ -1,7 +1,8 @@
 import { Nav, NavLink, Page } from "../../components";
 import { BoxAlignItems, BoxJustifyContent } from "../../components/box/types";
 import { Component } from "../../core";
-import { TComponentOrComponentArray } from "../../core/component/types";
+
+import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class NavigationPage extends Component {
     protected render(): TComponentOrComponentArray {
@@ -36,6 +37,6 @@ export class NavigationPage extends Component {
                     })
                 ]
             })
-        })
+        });
     }
 }

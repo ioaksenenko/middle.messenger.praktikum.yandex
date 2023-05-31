@@ -1,6 +1,8 @@
 import { Component } from "../../core";
-import { IFormProps, FormMethod } from "./types";
+import { FormMethod } from "./types";
 import template from "./template.hbs";
+
+import type { IFormProps } from "./types";
 
 export class Form extends Component<IFormProps> {
     constructor({

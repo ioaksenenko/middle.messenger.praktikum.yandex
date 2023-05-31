@@ -1,5 +1,5 @@
-import { IComponentProps } from "../../core/component/types";
-import { Color, TIcon, Shape, Size } from "../../types";
+import type { IComponentProps } from "../../core/component/types";
+import type { Color, TIcon, Shape, Size } from "../../types";
 
 export enum ButtonView {
     primary = "primary",
@@ -20,4 +20,4 @@ export interface IButtonProps extends IComponentProps {
     shape?: Shape;
     onClick?: EventListener;
     children: string | TIcon;
-};
+}

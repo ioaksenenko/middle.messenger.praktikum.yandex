@@ -1,46 +1,52 @@
-import { RequestMethod, IRequestOptions, TRequestUrl } from "./types";
+import { RequestMethod } from "./types";
 import { queryStringify } from "./helpers";
 
+import type { IRequestOptions, TRequestUrl } from "./types";
+
 export class HTTPTransport {
-    get = (url: TRequestUrl, options: IRequestOptions = {}) => {
-        return this.request(url, { ...options, method: RequestMethod.GET }, options.timeout);
+    get = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
+        return await this.request(url, { ...options, method: RequestMethod.GET }, options.timeout);
     };
 
-    put = (url: TRequestUrl, options: IRequestOptions = {}) => {
-        return this.request(url, { ...options, method: RequestMethod.PUT }, options.timeout);
+    put = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
+        return await this.request(url, { ...options, method: RequestMethod.PUT }, options.timeout);
     };
 
-    post = (url: TRequestUrl, options: IRequestOptions = {}) => {
-        return this.request(url, { ...options, method: RequestMethod.POST }, options.timeout);
+    post = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
+        return await this.request(url, { ...options, method: RequestMethod.POST }, options.timeout);
     };
 
-    delete = (url: TRequestUrl, options: IRequestOptions = {}) => {
-        return this.request(url, { ...options, method: RequestMethod.DELETE }, options.timeout);
+    delete = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
+        return await this.request(url, { ...options, method: RequestMethod.DELETE }, options.timeout);
     };
 
-    request = (url: TRequestUrl, {method = RequestMethod.GET, headers, data}: IRequestOptions = {}, timeout = 5000) => {
-        return new Promise((resolve, reject) => {
+    request = async(url: TRequestUrl, { method = RequestMethod.GET, headers, data }: IRequestOptions = {}, timeout = 5000): Promise<XMLHttpRequest> => {
+        return await new Promise<XMLHttpRequest>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-          
-            if (method === RequestMethod.GET && data) {
-                url = `${url}${queryStringify(data)}`;
+
+            if (method === RequestMethod.GET && typeof data !== "undefined") {
+                url = `${typeof url === "string" ? url : url.href}${queryStringify(data)}`;
             }
-          
+
             xhr.open(method, url);
-            
+
             headers && Object.entries(headers).forEach(
-                ([key, val]) => xhr.setRequestHeader(key, val)
+                ([key, val]) => {
+                    xhr.setRequestHeader(key, val);
+                }
             );
 
             xhr.timeout = timeout;
-          
-            xhr.onload = () => resolve(xhr);
-          
+
+            xhr.onload = () => {
+                resolve(xhr);
+            };
+
             xhr.onabort = reject;
             xhr.onerror = reject;
             xhr.ontimeout = reject;
-          
-            if (method === RequestMethod.GET || !data) {
+
+            if (method === RequestMethod.GET || typeof data === "undefined") {
                 xhr.send();
             } else {
                 xhr.send(data);
