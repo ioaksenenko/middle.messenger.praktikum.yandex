@@ -1,0 +1,341 @@
+.input-box {
+    position: relative;
+    
+    &__label {
+        width: 100%;
+        pointer-events: none;
+        transition-property: background, transform, color;
+        transition-timing-function: ease-out;
+        transition-duration: 0.15s;
+        font-style: normal;
+        font-feature-settings: "tnum", "lnum";
+        font-weight: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &_size-medium &__label {
+        position: absolute;
+        left: 0;
+        font-size: 16px;
+        line-height: 24px;
+        transform: translate(0, 12px);
+    }
+
+    &_size-small &__label,
+    &_size-xsmall &__label {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    &_color-white &__label,
+    &_color-black &__label {
+        color: var(--color-black-alpha70);
+    }
+
+    &_color-primary1 &__label {
+        color: var(--color-primary1-alpha70);
+    }
+
+    &_color-primary2 &__label {
+        color: var(--color-primary2-alpha70);
+    }
+
+    &_color-secondary1 &__label {
+        color: var(--color-secondary1-alpha70);
+    }
+
+    &_color-secondary2 &__label {
+        color: var(--color-secondary2-alpha70);
+    }
+
+    &_size-medium&_shape-rounded &__label {
+        padding: 0 12px;
+    }
+
+    &_size-medium&_shape-circular &__label {
+        padding: 0 20px;
+    }
+
+    &_size-medium&_focus &__label,
+    &_size-medium&_filled &__label {
+        font-size: 12px;
+        line-height: 16px;
+        transform: translate(0, 4px);
+    }
+
+    &_size-medium&_color-primary1&_focus &__label,
+    &_size-medium&_color-primary1&_filled &__label {
+        color: var(--color-primary1);
+    }
+
+    &_size-medium&_color-primary2&_focus &__label,
+    &_size-medium&_color-primary2&_filled &__label {
+        color: var(--color-primary2);
+    }
+
+    &_size-medium&_color-secondary1&_focus &__label,
+    &_size-medium&_color-secondary1&_filled &__label {
+        color: var(--color-secondary1);
+    }
+
+    &_size-medium&_color-secondary2&_focus &__label,
+    &_size-medium&_color-secondary2&_filled &__label {
+        color: var(--color-secondary2);
+    }
+
+    &__icon-button {
+        position: absolute;
+        bottom: 0;
+
+        &_position {
+            &-left {
+                left: 0;
+            }
+
+            &-right {
+                right: 0;
+            }
+        }
+    }
+
+    &_size-medium &__icon-button,
+    &_size-medium &__icon-button svg {
+        min-width: 24px;
+        max-width: 24px;
+        height: 24px;
+    }
+
+    &_size-small &__icon-button,
+    &_size-small &__icon-button svg {
+        min-width: 20px;
+        max-width: 20px;
+        height: 20px;
+    }
+
+    &_size-xsmall &__icon-button,
+    &_size-xsmall &__icon-button svg {
+        min-width: 16px;
+        max-width: 16px;
+        height: 16px;
+    }
+
+    &_size-medium&_shape-rounded &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-8px, -12px);
+            }
+
+            &-left {
+                transform: translate(8px, -12px);
+            }
+        }
+    }
+
+    &_size-medium&_shape-circular &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-16px, -12px);
+            }
+
+            &-left {
+                transform: translate(16px, -12px);
+            }
+        }
+    }
+
+    &_size-small&_shape-rounded &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-8px, -6px);
+            }
+
+            &-left {
+                transform: translate(8px, -6px);
+            }
+        }
+    }
+
+    &_size-xsmall&_shape-rounded &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-8px, -4px);
+            }
+
+            &-left {
+                transform: translate(8px, -4px);
+            }
+        }
+    }
+
+    &_size-small&_shape-circular &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-10px, -6px);
+            }
+
+            &-left {
+                transform: translate(10px, -6px);
+            }
+        }
+    }
+
+    &_size-xsmall&_shape-circular &__icon-button {
+        &_position {
+            &-right {
+                transform: translate(-10px, -4px);
+            }
+
+            &-left {
+                transform: translate(10px, -4px);
+            }
+        }
+    }
+
+    &_size-medium&_shape-geometric &__icon-button {
+        transform: translate(0, -12px);   
+    }
+
+    &_size-small&_shape-geometric &__icon-button {
+        transform: translate(0, -6px);
+    }
+
+    &_size-xsmall&_shape-geometric &__icon-button {
+        transform: translate(0, -4px);
+    }
+
+    &_size-medium&_shape-geometric&_icon-position {
+        &-right {
+            .input {
+                padding: 20px 32px 4px 0;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 20px 0 4px 32px;
+            }
+        }
+    }
+
+    &_size-medium&_shape-rounded&_icon-position {
+        &-right {
+            .input {
+                padding: 20px 40px 4px 12px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 20px 12px 4px 40px;
+            }
+        }
+    }
+
+    &_size-medium&_shape-circular&_icon-position {
+        &-right {
+            .input {
+                padding: 20px 48px 4px 20px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 20px 20px 4px 48px;
+            }
+        }
+    }
+
+    &_size-small&_shape-geometric&_icon-position {
+        &-right {
+            .input {
+                padding: 0 28px 0 0;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 0 0 0 28px;
+            }
+        }
+    }
+
+    &_size-small&_shape-rounded&_icon-position {
+        &-right {
+            .input {
+                padding: 6px 36px 6px 12px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 6px 12px 6px 36px;
+            }
+        }
+    }
+
+    &_size-small&_shape-circular&_icon-position {
+        &-right {
+            .input {
+                padding: 6px 38px 6px 14px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 6px 14px 6px 38px;
+            }
+        }
+    }
+
+    &_size-xsmall&_shape-geometric&_icon-position {
+        &-right {
+            .input {
+                padding: 0 20px 0 0;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 0 0 0 20px;
+            }
+        }
+    }
+
+    &_size-xsmall&_shape-rounded&_icon-position {
+        &-right {
+            .input {
+                padding: 4px 28px 4px 8px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 4px 8px 4px 28px;
+            }
+        }
+    }
+
+    &_size-xsmall&_shape-circular&_icon-position {
+        &-right {
+            .input {
+                padding: 4px 30px 4px 12px;
+            }
+        }
+
+        &-left {
+            .input {
+                padding: 4px 12px 4px 30px;
+            }
+        }
+    }
+
+    &_size-medium&_shape-circular &__label ~ div .input {
+        padding: 20px 20px 4px;
+    }
+
+    &_size-medium&_shape-rounded &__label ~ div .input {
+        padding: 20px 12px 4px;
+    }
+}

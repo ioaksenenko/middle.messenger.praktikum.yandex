@@ -1,0 +1,24 @@
+.chat {
+    max-height: 72px;
+    overflow: hidden;
+
+    &__avatar {
+        min-width: 56px;
+    }
+    
+    &__message {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+
+    &:hover {
+        background-color: var(--color-black-alpha10);
+        cursor: pointer;
+    }
+
+    &_active {
+        background-color: var(--color-primary1-alpha10);
+    }
+}

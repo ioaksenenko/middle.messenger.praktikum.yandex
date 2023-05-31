@@ -1,0 +1,151 @@
+.box {
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        border-radius: 2px;
+        background-color: var(--color-secondary1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: var(--color-primary1);
+    }
+
+    &_display {
+        &-flex{
+            display: flex;
+        }
+
+        &-block {
+            display: block;
+        }
+    }
+
+    &_flex-direction {
+        &-column {
+            flex-direction: column;
+        }
+
+        &-row {
+            flex-direction: row;
+        }
+    }
+
+    &_align-items {
+        &-center {
+            align-items: center;
+        }
+
+        &-start {
+            align-items: flex-start;
+        }
+
+        &-end {
+            align-items: flex-end;
+        }
+    }
+
+    &_justify-content {
+        &-center {
+            justify-content: center;
+        }
+
+        &-start {
+            justify-content: flex-start;
+        }
+
+        &-end {
+            justify-content: flex-end;
+        }
+
+        &-space-between {
+            justify-content: space-between;
+        }
+    }
+
+    &_gap {
+        &-xlarge {
+            gap: 40px;
+        }
+
+        &-large {
+            gap: 20px;
+        }
+
+        &-middle {
+            gap: 16px;
+        }
+
+        &-small {
+            gap: 8px;
+        }
+
+        &-xsmall {
+            gap: 4px;
+        }
+    }
+
+    &_height-100 {
+        height: 100%;
+    }
+
+    &_width-100 {
+        width: 100%;
+    }
+
+    &_position {
+        &-static {
+            position: static;
+        }
+
+        &-relative {
+            position: relative;
+        }
+
+        &-absolute {
+            position: absolute;
+        }
+
+        &-sticky {
+            position: sticky;
+        }
+    }
+
+    &_padding {
+        &-xlarge {
+            padding: 64px;
+        }
+
+        &-large {
+            padding: 32px;
+        }
+
+        &-middle {
+            padding: 16px;
+        }
+        
+        &-small {
+            padding: 8px;
+        }
+
+        &-xsmall {
+            padding: 4px;
+        }
+    }
+
+    &_overflow {
+        &-hidden {
+            overflow: hidden;
+        }
+
+        &-visible {
+            overflow: visible;
+        }
+
+        &-auto {
+            overflow: auto;
+        }
+    }
+}
