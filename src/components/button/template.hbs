@@ -1,0 +1,6 @@
+<button
+    class="button{{#if color }} button_color-{{ color }}{{/if}}{{#if view }} button_view-{{ view }}{{/if}}{{#if size }} button_size-{{ size }}{{/if}}{{#if shape }} button_shape-{{ shape }}{{/if}}{{#if className }} {{ className }}{{/if}}"
+    {{#if type }}type="{{ type }}"{{/if}}
+>
+    {{{ children }}}
+</button>

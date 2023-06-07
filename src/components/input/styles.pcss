@@ -1,0 +1,94 @@
+.input {
+    border: none;
+    outline: none;
+    width: 100%;
+    caret-color: var(--color-black);
+    font-style: normal;
+    font-feature-settings: "tnum", "lnum";
+    font-weight: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--color-black);
+
+    &_color-white {
+        background-color: var(--color-white);
+    }
+
+    &_color-black {
+        background-color: var(--color-black-alpha5);
+    }
+
+    &_color-primary1 {
+        background-color: var(--color-primary1-alpha5);
+    }
+
+    &_color-primary2 {
+        background-color: var(--color-primary2-alpha5);
+    }
+
+    &_color-secondary1 {
+        background-color: var(--color-secondary1-alpha5);
+    }
+
+    &_color-secondary2 {
+        background-color: var(--color-secondary2-alpha5);
+    }
+
+    &_shape-geometric {
+        border-radius: 0;
+        padding: 0;
+    }
+
+    &_shape-rounded {
+        border-radius: 8px;
+    }
+
+    &_shape-circular {
+        border-radius: 24px;
+    }
+
+    &_size-medium {
+        height: 48px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    &_size-small {
+        height: 32px;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    &_size-xsmall {
+        height: 24px;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    &_size-medium&_shape-rounded {
+        padding: 0 12px;
+    }
+
+    &_size-medium&_shape-circular {
+        padding: 0 20px;
+    }
+
+    &_size-small&_shape-rounded {
+        padding: 6px 12px;
+    }
+
+    &_size-small&_shape-circular {
+        padding: 6px 14px;
+    }
+
+    &_size-xsmall&_shape-rounded {
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    &_size-xsmall&_shape-circular {
+        padding: 4px 12px;
+        border-radius: 12px;
+    }
+}
