@@ -19,19 +19,19 @@ import type {
     TEventListenerRecord
 } from "./types";
 
-export class Component<P extends Record<string, any> = IComponentProps> {
-    private _template: HTMLTemplateElement;
+export class Component<P extends Record<string, any> = any> {
+    protected _template: HTMLTemplateElement;
     protected eventBus: EventBus;
     private _components: TComponentRecord;
     private _listeners: TEventListenerRecord;
     private _pseudoClasses: Record<string, boolean>;
+    private _content: TComponentOrComponentArray | null | undefined;
+    protected _id: string;
 
-    constructor(protected props: P = {} as any, protected templateDelegate: TemplateDelegate | undefined = undefined) {
-        this.props = this._makePropsProxy({
-            ...props,
-            id: props.id ?? makeUUID()
-        });
-        this.templateDelegate = templateDelegate ?? compile("{{{ children }}}");
+    constructor(protected props: P = {} as any, protected templateDelegate?: TemplateDelegate) {
+        this._id = makeUUID();
+        this.props = this._makePropsProxy(props);
+        this.templateDelegate = templateDelegate ?? compile("{{{ content }}}");
         this.eventBus = new EventBus();
         this._registerEvents();
         this.eventBus.emit(ComponentEvent.INIT);
@@ -62,8 +62,11 @@ export class Component<P extends Record<string, any> = IComponentProps> {
 
     private _init(): void {
         this._template = this._createDocumentElement("template") as HTMLTemplateElement;
+        this.init();
         this.eventBus.emit(ComponentEvent.RENDER);
     }
+
+    protected init(): void {}
 
     private _createDocumentElement(tagName: string): HTMLElement {
         return document.createElement(tagName);
@@ -137,9 +140,11 @@ export class Component<P extends Record<string, any> = IComponentProps> {
     private _render(): void {
         this._removeAllEventListeners(this);
 
-        const content = this.render();
+        const elementOrElementArray = this._findElementInDOM();
 
-        const context = { ...cloneDeep(this.props), children: content };
+        this._content = this.render();
+
+        const context = { ...cloneDeep(this.props), ...(this._content ? { content: this._content } : {}) };
         const { components, listeners, pseudoClasses } = this.getComponentsAndListeners(context);
         const internalListeners = this._getInternalListeners();
         const allListeners = Object.fromEntries(
@@ -173,7 +178,7 @@ export class Component<P extends Record<string, any> = IComponentProps> {
         const element = this._template.content.firstElementChild;
         if (element) {
             if (!element.getAttribute("id")) {
-                element.setAttribute("id", this.props.id);
+                element.setAttribute("id", this._id);
             }
 
             Object.values(components).forEach(val => {
@@ -198,13 +203,26 @@ export class Component<P extends Record<string, any> = IComponentProps> {
                 }
             );
 
-            const oldElement = document.getElementById(this.props.id);
-            const newElement = this._template.content.firstElementChild;
-            if (oldElement) {
-                newElement && oldElement.replaceWith(newElement);
-            } else {
-                const id = this._getFragmentChildId();
-                id && newElement && document.getElementById(id)?.replaceWith(newElement);
+            // const oldElement = document.getElementById(this.props.id);
+            // const newElement = this._template.content.firstElementChild;
+            // if (oldElement) {
+            //     newElement && oldElement.replaceWith(newElement);
+            // } else {
+            //     const id = this._getFragmentChildId();
+            //     id && newElement && document.getElementById(id)?.replaceWith(newElement);
+            // }
+
+            if (elementOrElementArray) {
+                if (Array.isArray(elementOrElementArray)) {
+                    const [element] = elementOrElementArray;
+                    const parent = element?.parentNode;
+                    if (parent) {
+                        parent.innerHTML = "";
+                        parent.appendChild(this._template.content);
+                    }
+                } else {
+                    elementOrElementArray.replaceWith(this._template.content.firstElementChild);
+                }
             }
         }
 
@@ -221,8 +239,16 @@ export class Component<P extends Record<string, any> = IComponentProps> {
         this._componentDidMount();
     }
 
+    private _findElementInDOM(): any {
+        return this._content
+            ? Array.isArray(this._content)
+                ? this._content.map(component => component._findElementInDOM())
+                : this._content._findElementInDOM()
+            : document.getElementById(this._id);
+    }
+
     private _applyPseudoClasses(pseudoClasses: Record<string, boolean>): void {
-        const element = document.getElementById(this.props.id) as HTMLInputElement;
+        const element = document.getElementById(this._id) as HTMLInputElement;
         element && Object.entries(pseudoClasses).forEach(
             ([key, val]) => {
                 val && this._applyPseudoClass(key, element);
@@ -247,26 +273,26 @@ export class Component<P extends Record<string, any> = IComponentProps> {
         }
     }
 
-    protected render(): TComponentOrComponentArray {
-        return this.props.children;
+    protected render(): TComponentOrComponentArray | null | undefined {
+        return null;
     }
 
     private _renderStub<T extends IComponentProps = IComponentProps>(component: Component<T>): string {
-        const element = component.props.id && document.getElementById(component.props.id);
+        const element = component._id && document.getElementById(component._id);
         if (element) {
             component._template.content.appendChild(element);
         }
-        return component.props.id ? `<div id="${component.props.id}"></div>` : "";
+        return component._id ? `<div id="${component._id}"></div>` : "";
     }
 
     private _replaceStub<T extends IComponentProps = IComponentProps>(component: Component<T>): void {
-        if (component.props.id) {
-            this._template.content.getElementById(component.props.id)?.replaceWith(component.getContent());
+        if (component._id) {
+            this._template.content.getElementById(component._id)?.replaceWith(component.getContent());
         }
     }
 
     private _removeEventListeners(listeners: TEventListenerRecord): void {
-        const element = document.getElementById(this.props.id);
+        const element = document.getElementById(this._id);
         Object.entries(listeners).forEach(
             ([key, val]) => {
                 Array.isArray(val)
@@ -279,7 +305,7 @@ export class Component<P extends Record<string, any> = IComponentProps> {
     }
 
     private _addEventListeners(listeners: TEventListenerRecord): void {
-        const element = document.getElementById(this.props.id);
+        const element = document.getElementById(this._id);
         Object.entries(listeners).forEach(
             ([key, val]) => {
                 Array.isArray(val)
@@ -343,5 +369,47 @@ export class Component<P extends Record<string, any> = IComponentProps> {
                 name => [name.substring(2).toLocaleLowerCase(), prototype[name].bind(this)]
             )
         );
+    }
+
+    public show(querySelector: string): void {
+        document.getElementById("root")?.replaceWith(this.getContent());
+        // const childrenId = Array.isArray(this._components.children)
+        //     ? this._components.children[0]._id
+        //     : this._components.children?._id;
+        // const element = document.getElementById(this._id) ?? document.getElementById(childrenId);
+        // !element && document.querySelector(querySelector)?.replaceWith(this.getContent());
+        // element?.classList.remove("hide");
+    }
+
+    public hide(querySelector: string): void {
+        document.body.innerHTML = `<div id="root"></div>`;
+        // const contentId = Array.isArray(this._content)
+        //     ? this._content[0]._id
+        //     : this._content?._id;
+        // const element = contentId ? document.getElementById(contentId) : document.getElementById(this._id);
+        // console.log(contentId, this._id);
+        // const root = this._createDocumentElement("div");
+        // root.setAttribute("id", "root");
+        // element?.parentNode?.insertBefore(root, element);
+        // element && this._template.content.appendChild(element);
+        // element?.classList.add("hide");
+    }
+
+    public get element(): HTMLElement | null {
+        return document.getElementById(
+            this._content
+                ? Array.isArray(this._content)
+                    ? this._content[0]._id
+                    : this._content._id
+                : this._id
+        );
+    }
+
+    public get content(): DocumentFragment {
+        return this._template.content;
+    }
+
+    public set content(element: HTMLElement) {
+        this._template.content.append(element);
     }
 }

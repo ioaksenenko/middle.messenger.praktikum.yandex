@@ -2,7 +2,7 @@ import { Component } from "../../core";
 import { Box } from "../box";
 import { BoxAlignItems, BoxJustifyContent, BoxFlexDirection, BoxGap, BoxWidth, BoxOverflow, BoxPadding } from "../box/types";
 import { Button } from "../button";
-import { AttachmentIcon, ChevronRight } from "../../icons";
+import { AttachmentIcon, ChevronRightIcon } from "../../icons";
 import { Shape, Color, Size } from "../../types";
 import { ButtonView, ButtonType } from "../button/types";
 import { Form } from "../form";
@@ -49,7 +49,7 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
                             required: true
                         }),
                         new Button({
-                            children: new ChevronRight({ fill: Color.white }),
+                            children: new ChevronRightIcon({ fill: Color.white }),
                             shape: Shape.circular,
                             color: Color.primary2,
                             size: Size.small,

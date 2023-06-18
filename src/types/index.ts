@@ -4,7 +4,7 @@ import type {
     SearchIcon,
     TrashIcon,
     UploadIcon,
-    ChevronRight,
+    ChevronRightIcon,
     AttachmentIcon,
     CheckIcon
 } from "../icons";
@@ -15,7 +15,7 @@ export type TIcon =
     | SearchIcon
     | TrashIcon
     | UploadIcon
-    | ChevronRight
+    | ChevronRightIcon
     | AttachmentIcon
     | CheckIcon;
 

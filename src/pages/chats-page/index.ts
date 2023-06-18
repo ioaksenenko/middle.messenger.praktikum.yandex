@@ -4,14 +4,18 @@ import { Color, Shape, Size } from "../../types";
 import { SearchIcon } from "../../icons";
 import { BoxFlexDirection, BoxHeight, BoxWidth } from "../../components/box/types";
 import { MessageInputBox } from "../../components/message-input-box";
+import { connect } from "../../core/store/hocs";
+import { userController } from "../../controllers";
+import { makeResourcePath } from "../../helpers/make-resource-path";
 
 import type { IChatsPageProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
-import type { IChat } from "../../data";
+import type { IChat } from "../../api/chats-api/types";
 
-export class ChatsPage extends Component<IChatsPageProps> {
+class ChatsPage extends Component<IChatsPageProps> {
     constructor({ activeChat, messages }: IChatsPageProps = {}) {
         super({ activeChat, messages });
+        userController.getUser();
     }
 
     protected render(): TComponentOrComponentArray {
@@ -24,11 +28,12 @@ export class ChatsPage extends Component<IChatsPageProps> {
                     children: [
                         new User({
                             avatar: new Avatar({
-                                size: 36
+                                size: 36,
+                                src: makeResourcePath(this.props.user?.data?.avatar)
                             }),
                             children: new Link({
                                 href: "/profile/",
-                                children: "Иван Аксененко"
+                                children: this.props.user?.data?.display_name
                             })
                         }),
                         new InputBox({
@@ -78,3 +83,5 @@ export class ChatsPage extends Component<IChatsPageProps> {
         });
     }
 }
+
+export default connect<IChatsPageProps>(state => ({ user: state.user }))(ChatsPage);

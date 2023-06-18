@@ -1,15 +1,23 @@
 import { Component } from "../../core";
-import { Page, Typography, Form, InputBox, Button, QuestionLink } from "../../components";
+import { Page, Typography, Form, InputBox, Button, QuestionLink, ErrorList } from "../../components";
 import { TypographyVariant, TypographyTag } from "../../components/typography/types";
 import { InputType } from "../../components/input/types";
 import { ButtonType } from "../../components/button/types";
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/types";
-import { loginValidatorRule, passwordValidatorRule } from "../../helpers/validators";
 import { FormMethod } from "../../components/form/types";
+import { signInController } from "../../controllers";
+import { loginValidationRule, passwordValidationRule } from "../../validation-rules";
+import { connect } from "../../core/store/hocs";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class LoginPage extends Component {
+interface ILoginPageProps {
+    formData?: Record<string, string>;
+    loading?: boolean;
+    errors?: Record<string, string[]>;
+}
+
+class LoginPage extends Component<ILoginPageProps> {
     protected render(): TComponentOrComponentArray {
         return new Page({
             alignItems: BoxAlignItems.center,
@@ -26,16 +34,19 @@ export class LoginPage extends Component {
                     className: "login-page__form",
                     onSubmit: this.handleFormSubmit.bind(this),
                     children: [
+                        new ErrorList({
+                            errors: this.props.errors
+                        }),
                         new InputBox({
                             name: "login",
                             label: "Логин",
-                            validationRules: [loginValidatorRule()]
+                            validationRules: [loginValidationRule]
                         }),
                         new InputBox({
                             type: InputType.password,
                             name: "password",
                             label: "Пароль",
-                            validationRules: [passwordValidatorRule()]
+                            validationRules: [passwordValidationRule]
                         }),
                         new Button({
                             type: ButtonType.submit,
@@ -57,10 +68,13 @@ export class LoginPage extends Component {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
-        formData.forEach(
-            (value, key) => {
-                console.log(key, value);
-            }
-        );
+        const login = formData.get("login");
+        const password = formData.get("password");
+        signInController.signIn({
+            login: typeof login === "string" ? login : "",
+            password: typeof password === "string" ? password : ""
+        });
     }
 }
+
+export default connect(state => state.signin)(LoginPage);

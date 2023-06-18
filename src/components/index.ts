@@ -1,3 +1,11 @@
+import modal from "./modal";
+import ChatList from "./chat-list";
+
+export {
+    modal,
+    ChatList
+};
+
 export { Box } from "./box";
 export { Page } from "./page";
 export { Header } from "./header";
@@ -21,7 +29,7 @@ export { List } from "./list";
 export { ListItem } from "./list-item";
 export { Nav } from "./nav";
 export { NavLink } from "./nav-link";
-export { ChatList } from "./chat-list";
 export { Message } from "./message";
 export { MessageList } from "./message-list";
 export { MessageInputBox } from "./message-input-box";
+export { ErrorList } from "./error-list";

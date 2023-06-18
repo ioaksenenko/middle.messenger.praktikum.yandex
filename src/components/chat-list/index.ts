@@ -1,25 +1,23 @@
 import { Component } from "../../core";
-import { chats, currentUserId } from "../../data";
 import { Chat } from "../chat";
-import { last } from "../../helpers";
+import { connect } from "../../core/store/hocs";
 
 import type { IChatListProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class ChatList extends Component<IChatListProps> {
+class ChatList extends Component<IChatListProps> {
     constructor({ id, className, activeChat, setActiveChat }: IChatListProps) {
         super({ id, className, activeChat, setActiveChat });
     }
 
-    protected render(): TComponentOrComponentArray {
-        return chats.filter(chat => chat.source.id === currentUserId).map(chat => {
-            const lastMessage = last(chat.messages);
+    protected render(): TComponentOrComponentArray | null | undefined {
+        return this.props.chats?.data.map(chat => {
             return new Chat({
                 id: chat.id,
                 avatar: chat.avatar,
                 title: chat.title,
-                date: lastMessage?.date,
-                message: lastMessage?.message,
+                date: chat.last_message.time,
+                message: chat.last_message.content,
                 onClick: this.handleChatClick.bind(this),
                 active: this.props.activeChat?.id === chat.id
             });
@@ -28,7 +26,10 @@ export class ChatList extends Component<IChatListProps> {
 
     private handleChatClick(event: MouseEvent): void {
         const element = event.currentTarget as HTMLDivElement;
-        const chat = chats.find(chat => chat.id === element.id);
+        const chatId = /\d+/.test(element.id) ? parseInt(element.id) : undefined;
+        const chat = chatId ? this.props.chats?.data.find(chat => chat.id === chatId) : undefined;
         this.props.setActiveChat?.(chat);
     }
 }
+
+export default connect<IChatListProps>(state => ({ chats: state.chats }))(ChatList);

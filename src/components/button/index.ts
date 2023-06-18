@@ -6,7 +6,6 @@ import { Color, Shape, Size } from "../../types";
 import { ButtonType, ButtonView } from "./types";
 
 import type { IButtonProps } from "./types";
-import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Button extends Component<IButtonProps> {
     constructor({
@@ -23,7 +22,15 @@ export class Button extends Component<IButtonProps> {
         super({
             id,
             className,
-            children,
+            children: typeof children === "string"
+                ? new Typography({
+                    tag: TypographyTag.span,
+                    variant: size === Size.small
+                        ? TypographyVariant.accentS
+                        : TypographyVariant.accentM,
+                    children
+                })
+                : children,
             type,
             color,
             view,
@@ -31,17 +38,5 @@ export class Button extends Component<IButtonProps> {
             shape,
             onClick
         }, template);
-    }
-
-    protected render(): TComponentOrComponentArray {
-        return typeof this.props.children === "string"
-            ? new Typography({
-                tag: TypographyTag.span,
-                variant: this.props.size === Size.small
-                    ? TypographyVariant.accentS
-                    : TypographyVariant.accentM,
-                children: this.props.children
-            })
-            : this.props.children;
     }
 }
