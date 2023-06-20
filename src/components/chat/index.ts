@@ -12,12 +12,12 @@ import type { TComponentOrComponentArray } from "../../core/component/types";
 
 export class Chat extends Component<IChatProps> {
     constructor({ id, className, children, avatar, title, date, message, active, onClick }: IChatProps) {
-        super({ chatId: id, className, children, avatar, title, date, message, active, onClick });
+        super({ id, className, children, avatar, title, date, message, active, onClick });
     }
 
     protected render(): TComponentOrComponentArray {
         return new Box({
-            id: this.props.chatId,
+            id: this.props.id,
             flexDirection: BoxFlexDirection.row,
             width: BoxWidth.full,
             gap: BoxGap.small,

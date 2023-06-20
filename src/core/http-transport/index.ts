@@ -1,34 +1,107 @@
 import { RequestMethod } from "./types";
 import { queryStringify } from "./helpers";
 
-import type { IRequestOptions, TRequestUrl } from "./types";
+import type { IRequestOptions, TRequestUrl, TRequestDataDefault, IResponse, TRequestHeaders } from "./types";
 
 export class HTTPTransport {
-    get = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
-        return await this.request(url, { ...options, method: RequestMethod.GET }, options.timeout);
-    };
+    private readonly _baseURL: string | undefined;
 
-    put = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
-        return await this.request(url, { ...options, method: RequestMethod.PUT }, options.timeout);
-    };
+    constructor(baseURL?: string) {
+        this._baseURL = baseURL;
+    }
 
-    post = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
-        return await this.request(url, { ...options, method: RequestMethod.POST }, options.timeout);
-    };
+    get = async<TRequestData = never, TResponseData = never>(
+        url: TRequestUrl,
+        data?: TRequestData,
+        headers?: TRequestHeaders,
+        options: IRequestOptions = {}
+    ): Promise<IResponse> => (
+        await this.request<TRequestData, TResponseData>(
+            url,
+            {
+                ...options,
+                method: RequestMethod.GET,
+                data,
+                headers
+            },
+            options.timeout
+        )
+    );
 
-    delete = async(url: TRequestUrl, options: IRequestOptions = {}): Promise<XMLHttpRequest> => {
-        return await this.request(url, { ...options, method: RequestMethod.DELETE }, options.timeout);
-    };
+    put = async<TRequestData = never, TResponseData = never>(
+        url: TRequestUrl,
+        data?: TRequestData,
+        headers?: TRequestHeaders,
+        options: IRequestOptions = {}
+    ): Promise<IResponse<TResponseData>> => (
+        await this.request<TRequestData, TResponseData>(
+            url,
+            {
+                ...options,
+                method: RequestMethod.PUT,
+                data,
+                headers
+            },
+            options.timeout
+        )
+    );
 
-    request = async(url: TRequestUrl, { method = RequestMethod.GET, headers, data }: IRequestOptions = {}, timeout = 5000): Promise<XMLHttpRequest> => {
-        return await new Promise<XMLHttpRequest>((resolve, reject) => {
+    post = async<TRequestData = never, TResponseData = never>(
+        url: TRequestUrl,
+        data?: TRequestData,
+        headers?: TRequestHeaders,
+        options: IRequestOptions = {}
+    ): Promise<IResponse<TResponseData>> => (
+        await this.request<TRequestData, TResponseData>(
+            url,
+            {
+                ...options,
+                method: RequestMethod.POST,
+                data,
+                headers
+            },
+            options.timeout
+        )
+    );
+
+    delete = async<TRequestData = never, TResponseData = never>(
+        url: TRequestUrl,
+        data?: TRequestData,
+        headers?: TRequestHeaders,
+        options: IRequestOptions = {}
+    ): Promise<IResponse> => (
+        await this.request<TRequestData, TResponseData>(
+            url,
+            {
+                ...options,
+                method: RequestMethod.DELETE,
+                data,
+                headers
+            },
+            options.timeout
+        )
+    );
+
+    request = async<TRequestData = TRequestDataDefault, TResponseData = any>(
+        url: TRequestUrl,
+        {
+            method = RequestMethod.GET,
+            headers = {
+                "Content-Type": "application/json"
+            },
+            data,
+            withCredentials = true
+        }: IRequestOptions<TRequestData> = {},
+        timeout = 5000
+    ): Promise<IResponse<TResponseData>> => (
+        await new Promise<IResponse<TResponseData>>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
 
             if (method === RequestMethod.GET && typeof data !== "undefined") {
                 url = `${typeof url === "string" ? url : url.href}${queryStringify(data)}`;
             }
 
-            xhr.open(method, url);
+            xhr.open(method, this._baseURL && typeof url === "string" ? `${this._baseURL}${url}` : url);
 
             headers && Object.entries(headers).forEach(
                 ([key, val]) => {
@@ -37,9 +110,17 @@ export class HTTPTransport {
             );
 
             xhr.timeout = timeout;
+            xhr.withCredentials = withCredentials;
 
             xhr.onload = () => {
-                resolve(xhr);
+                let data = null;
+                try {
+                    data = JSON.parse(xhr.response);
+                } catch {}
+                resolve({
+                    status: xhr.status,
+                    data
+                });
             };
 
             xhr.onabort = reject;
@@ -49,8 +130,8 @@ export class HTTPTransport {
             if (method === RequestMethod.GET || typeof data === "undefined") {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(data instanceof FormData ? data : JSON.stringify(data));
             }
-        });
-    };
+        })
+    );
 }

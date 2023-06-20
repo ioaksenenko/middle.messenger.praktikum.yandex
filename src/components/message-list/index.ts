@@ -1,14 +1,15 @@
 import { Component } from "../../core";
-import { Message } from "../message";
+import Message from "../message";
 import { Box } from "../box";
 import { BoxHeight, BoxWidth, BoxAlignItems, BoxJustifyContent, BoxGap } from "../box/types";
 import { Typography } from "../typography";
 import { TypographyVariant } from "../typography/types";
+import { connect } from "../../core/store/hocs";
 
 import type { IMessageListProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class MessageList extends Component<IMessageListProps> {
+class MessageList extends Component<IMessageListProps> {
     constructor({ id, className, activeChat }: IMessageListProps) {
         super({ id, className, activeChat });
     }
@@ -18,17 +19,16 @@ export class MessageList extends Component<IMessageListProps> {
             height: BoxHeight.full,
             width: BoxWidth.full,
             alignItems: BoxAlignItems.center,
-            justifyContent: this.props.activeChat?.messages?.length ? BoxJustifyContent.end : BoxJustifyContent.center,
+            justifyContent: this.props.messages?.length ? BoxJustifyContent.end : BoxJustifyContent.center,
             gap: BoxGap.small,
             className: "message-list",
-            children: this.props.activeChat?.messages?.length
-                ? this.props.activeChat.messages.map(
+            children: this.props.messages?.length
+                ? this.props.messages.map(
                     message => new Message({
                         id: message.id,
-                        children: message.message,
-                        date: message.date,
-                        sender: message.sender,
-                        recipient: message.recipient
+                        children: message.content,
+                        time: message.time,
+                        userId: message.user_id
                     })
                 )
                 : new Typography({
@@ -39,3 +39,5 @@ export class MessageList extends Component<IMessageListProps> {
         });
     }
 }
+
+export default connect<IMessageListProps>(store => ({ messages: store.messages }))(MessageList);

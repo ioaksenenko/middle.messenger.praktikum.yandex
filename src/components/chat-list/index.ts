@@ -1,34 +1,36 @@
 import { Component } from "../../core";
-import { chats, currentUserId } from "../../data";
 import { Chat } from "../chat";
-import { last } from "../../helpers";
+import socket from "../../core/socket";
 
 import type { IChatListProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class ChatList extends Component<IChatListProps> {
-    constructor({ id, className, activeChat, setActiveChat }: IChatListProps) {
-        super({ id, className, activeChat, setActiveChat });
+class ChatList extends Component<IChatListProps> {
+    constructor({ id, className, activeChat, setActiveChat, chats }: IChatListProps) {
+        super({ id, className, activeChat, setActiveChat, chats });
     }
 
-    protected render(): TComponentOrComponentArray {
-        return chats.filter(chat => chat.source.id === currentUserId).map(chat => {
-            const lastMessage = last(chat.messages);
-            return new Chat({
+    protected render(): TComponentOrComponentArray | null | undefined {
+        return this.props.chats.map(chat => (
+            new Chat({
                 id: chat.id,
                 avatar: chat.avatar,
                 title: chat.title,
-                date: lastMessage?.date,
-                message: lastMessage?.message,
+                date: chat.last_message?.time,
+                message: chat.last_message?.content,
                 onClick: this.handleChatClick.bind(this),
                 active: this.props.activeChat?.id === chat.id
-            });
-        });
+            })
+        ));
     }
 
     private handleChatClick(event: MouseEvent): void {
         const element = event.currentTarget as HTMLDivElement;
-        const chat = chats.find(chat => chat.id === element.id);
+        const chatId = element.dataset.id && /\d+/.test(element.dataset.id) ? parseInt(element.dataset.id) : undefined;
+        const chat = chatId ? this.props.chats.find(chat => chat.id === chatId) : undefined;
         this.props.setActiveChat?.(chat);
+        chat && socket.connect(chat.id);
     }
 }
+
+export default ChatList;

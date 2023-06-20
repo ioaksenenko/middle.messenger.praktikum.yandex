@@ -4,7 +4,8 @@ import type { Color, Size, Shape } from "../../types";
 export enum InputType {
     text = "text",
     password = "password",
-    email = "email"
+    email = "email",
+    hidden = "hidden"
 }
 
 export interface IInputProps extends Omit<IComponentProps, "children"> {
@@ -17,6 +18,7 @@ export interface IInputProps extends Omit<IComponentProps, "children"> {
     onChange?: EventListener;
     onFocus?: EventListener;
     onBlur?: EventListener;
+    onInput?: EventListener;
     size?: Size;
     color?: Color;
     shape?: Shape;

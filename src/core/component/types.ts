@@ -8,7 +8,7 @@ export type TEventListenerRecord = Record<string, TEventListenerOrEventListenerA
 export type TComponentChild = Component | string | number | boolean | undefined | null;
 
 export interface IComponentProps {
-    id?: string;
+    id?: string | number;
     children?: TComponentChild | TComponentChild[];
     className?: string;
 }

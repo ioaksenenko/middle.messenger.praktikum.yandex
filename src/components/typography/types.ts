@@ -25,7 +25,8 @@ export enum TypographyTag {
     h4 = "h4",
     span = "span",
     label = "label",
-    a = "a"
+    a = "a",
+    li = "li"
 }
 
 export interface ITypographyProps extends IComponentProps {

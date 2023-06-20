@@ -9,11 +9,17 @@ export type TRequestUrl = string | URL;
 
 export type TRequestHeaders = Record<string, string>;
 
-export type TRequestData = Document | XMLHttpRequestBodyInit | null | undefined;
+export type TRequestDataDefault = Document | XMLHttpRequestBodyInit | null | undefined;
 
-export interface IRequestOptions {
+export interface IResponse<TResponseData = any> {
+    status: number;
+    data: TResponseData;
+}
+
+export interface IRequestOptions<TRequestData = TRequestDataDefault> {
     method?: RequestMethod;
     headers?: TRequestHeaders;
     data?: TRequestData;
     timeout?: number;
+    withCredentials?: boolean;
 }
