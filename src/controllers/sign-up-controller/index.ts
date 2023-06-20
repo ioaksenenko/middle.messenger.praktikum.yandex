@@ -22,7 +22,7 @@ export class SignInController {
             switch (response.status) {
                 case 200: {
                     store.set("user.data.id", response.data.id);
-                    router.go("/chats/");
+                    router.go("/");
                     break;
                 }
                 case 400: {

@@ -5,6 +5,9 @@ import userController from "./user-controller";
 import userAvatarController from "./user-avatar-controller";
 import userPasswordController from "./user-password-controller";
 import chatsController from "./chats-controller";
+import userSearchController from "./user-search-controller";
+import chatsUsersController from "./chats-users-controller";
+import chatsTokenController from "./chats-token-controller";
 
 export {
     signInController,
@@ -13,5 +16,8 @@ export {
     userController,
     userAvatarController,
     userPasswordController,
-    chatsController
+    chatsController,
+    userSearchController,
+    chatsUsersController,
+    chatsTokenController
 };

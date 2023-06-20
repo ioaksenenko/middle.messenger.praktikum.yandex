@@ -6,4 +6,7 @@ export interface IChatsPageProps {
     activeChat?: IChat;
     messages?: string[];
     user?: IRequestState<IUser>;
+    chats?: IRequestState<IChat[]>;
+    chatMenuIsVisible?: boolean;
+    selectedUsers?: IUser[];
 }

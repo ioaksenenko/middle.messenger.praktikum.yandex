@@ -217,7 +217,13 @@ export class Component<P extends Record<string, any> = any> {
                     const [element] = elementOrElementArray;
                     const parent = element?.parentNode;
                     if (parent) {
-                        parent.innerHTML = "";
+                        if (parent.tagName === "BODY") {
+                            parent.querySelector("header").remove();
+                            parent.querySelector("main").remove();
+                            parent.querySelector("footer").remove();
+                        } else {
+                            parent.innerHTML = "";
+                        }
                         parent.appendChild(this._template.content);
                     }
                 } else {
@@ -373,26 +379,10 @@ export class Component<P extends Record<string, any> = any> {
 
     public show(querySelector: string): void {
         document.getElementById("root")?.replaceWith(this.getContent());
-        // const childrenId = Array.isArray(this._components.children)
-        //     ? this._components.children[0]._id
-        //     : this._components.children?._id;
-        // const element = document.getElementById(this._id) ?? document.getElementById(childrenId);
-        // !element && document.querySelector(querySelector)?.replaceWith(this.getContent());
-        // element?.classList.remove("hide");
     }
 
     public hide(querySelector: string): void {
         document.body.innerHTML = `<div id="root"></div>`;
-        // const contentId = Array.isArray(this._content)
-        //     ? this._content[0]._id
-        //     : this._content?._id;
-        // const element = contentId ? document.getElementById(contentId) : document.getElementById(this._id);
-        // console.log(contentId, this._id);
-        // const root = this._createDocumentElement("div");
-        // root.setAttribute("id", "root");
-        // element?.parentNode?.insertBefore(root, element);
-        // element && this._template.content.appendChild(element);
-        // element?.classList.add("hide");
     }
 
     public get element(): HTMLElement | null {
@@ -405,11 +395,11 @@ export class Component<P extends Record<string, any> = any> {
         );
     }
 
-    public get content(): DocumentFragment {
+    public get content(): DocumentFragment | HTMLElement {
         return this._template.content;
     }
 
-    public set content(element: HTMLElement) {
+    public set content(element: DocumentFragment | HTMLElement) {
         this._template.content.append(element);
     }
 }

@@ -16,7 +16,7 @@ export class ChatsController {
         chatsApi.request(data).then(response => {
             switch (response.status) {
                 case 200: {
-                    store.set("chats.list", response.data);
+                    store.set("chats.data", response.data);
                     break;
                 }
                 case 401: {
@@ -77,7 +77,7 @@ export class ChatsController {
         store.set("chats.loading", true);
         store.set("chats.errors", null);
 
-        chatsApi.request(data).then(response => {
+        chatsApi.delete(data).then(response => {
             switch (response.status) {
                 case 200: {
                     this.getChats();

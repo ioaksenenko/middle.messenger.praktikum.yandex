@@ -12,9 +12,12 @@ import store from "../../core/store";
 import { TypographyTag, TypographyVariant } from "../../components/typography/types";
 import { HappyAvocado } from "../../images";
 import { makeResourcePath } from "../../helpers/make-resource-path";
+import { Router } from "../../core/router";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
 import type { IProfilePageProps } from "./types";
+
+const router = new Router("#root");
 
 class ProfilePage extends Component<IProfilePageProps> {
     private newAvatar: File;
@@ -146,7 +149,7 @@ class ProfilePage extends Component<IProfilePageProps> {
     }
 
     private handleClickBackButton(): void {
-        document.location.href = "/chats/";
+        router.go("/");
     }
 
     private handleClickLogoutButton(): void {
@@ -304,6 +307,7 @@ class ProfilePage extends Component<IProfilePageProps> {
         const formData = new FormData();
         formData.append("avatar", this.newAvatar);
         userAvatarController.updateUserAvatar(formData);
+        modal.hide();
     }
 }
 

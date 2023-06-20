@@ -5,6 +5,9 @@ import userApi from "./user-api";
 import userAvatarApi from "./user-avatar-api";
 import userPasswordApi from "./user-password-api";
 import chatsApi from "./chats-api";
+import userSearchApi from "./user-search-api";
+import chatsUsersApi from "./chats-users-api";
+import chatsTokenApi from "./chats-token-api";
 
 export {
     signInApi,
@@ -13,5 +16,8 @@ export {
     userApi,
     userAvatarApi,
     userPasswordApi,
-    chatsApi
+    chatsApi,
+    userSearchApi,
+    chatsUsersApi,
+    chatsTokenApi
 };

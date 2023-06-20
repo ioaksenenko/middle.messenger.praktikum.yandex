@@ -1,8 +1,15 @@
 import { identity } from "../../helpers";
 
-import type { IUserResponseSuccess, IUserUpdateRequestData } from "../../api/user-api/types";
+import type { IUser, TUserUpdateRequestData } from "../../api/user-api/types";
 
-export const prepareData = (data: IUserResponseSuccess): IUserUpdateRequestData => {
+export const getDisplayName = (data: IUser): string => {
+    const firstName = (data.first_name ?? "").trim();
+    const secondName = (data.second_name ?? "").trim();
+    const displayName = (data.display_name ?? "").trim();
+    return displayName ?? [firstName, secondName].filter(identity).join(" ") ?? "";
+};
+
+export const prepareData = (data: IUser): TUserUpdateRequestData => {
     const firstName = (data.first_name ?? "").trim();
     const secondName = (data.second_name ?? "").trim();
     const displayName = (data.display_name ?? "").trim();

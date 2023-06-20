@@ -18,6 +18,7 @@ export interface IInputProps extends Omit<IComponentProps, "children"> {
     onChange?: EventListener;
     onFocus?: EventListener;
     onBlur?: EventListener;
+    onInput?: EventListener;
     size?: Size;
     color?: Color;
     shape?: Shape;

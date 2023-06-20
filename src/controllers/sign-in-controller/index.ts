@@ -21,7 +21,7 @@ export class SignInController {
         signInApi.request(data).then(response => {
             switch (response.status) {
                 case 200: {
-                    router.go("/chats/");
+                    router.go("/");
                     break;
                 }
                 case 400: {

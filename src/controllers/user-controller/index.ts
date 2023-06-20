@@ -2,9 +2,9 @@ import { userApi } from "../../api";
 import store from "../../core/store";
 import { Router } from "../../core/router";
 import { userValidator } from "../../validators";
-
-import type { TUserUpdateRequestData } from "../../api/types";
 import { prepareData } from "./helpers";
+
+import type { IUser } from "../../api/user-api/types";
 
 const router = new Router("#root");
 
@@ -44,7 +44,7 @@ export class UserController {
         });
     }
 
-    public updateUser(data: TUserUpdateRequestData): void {
+    public updateUser(data: IUser): void {
         store.set("user.loading", true);
         store.set("user.errors", null);
 

@@ -7,6 +7,7 @@ import type { TComponentOrComponentArray } from "../../core/component/types";
 import type { IModalProps } from "./types";
 import { Overlay } from "../overlay";
 import { ButtonView } from "../button/types";
+import { Size } from "../../types";
 
 class Modal extends Component<IModalProps> {
     private overlay: Overlay;
@@ -29,7 +30,9 @@ class Modal extends Component<IModalProps> {
                         new Button({
                             children: new CloseIcon(),
                             view: ButtonView.ghost,
-                            onClick: this.hide.bind(this)
+                            onClick: this.hide.bind(this),
+                            size: Size.small,
+                            className: "modal__header__close-button"
                         })
                     ]
                 }),

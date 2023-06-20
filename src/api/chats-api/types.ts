@@ -10,17 +10,17 @@ export interface IMessage {
 export interface IChat {
     id: number;
     title: string;
-    avatar: string;
+    avatar?: string;
     unread_count: number;
-    last_message: IMessage;
+    last_message?: IMessage;
 }
 
 export type TChatList = IChat[];
 
-export interface IChatListRequestData extends Record<string, string | number> {
-    offset: number;
-    limit: number;
-    title: string;
+export interface IChatListRequestData extends Record<string, string | number | undefined> {
+    offset?: number;
+    limit?: number;
+    title?: string;
 }
 
 export type TChatListResponseData = TChatList & IResponseError;
@@ -33,7 +33,9 @@ export interface IChatDeleteRequestData extends Record<string, number> {
     chatId: number;
 }
 
-export interface IChatDeleteResponseData {
+export interface IChatDeleteResponseSuccess {
     userId: number;
     result: Omit<IChat, "unread_count" | "last_message">;
 }
+
+export type TChatDeleteResponseData = IChatDeleteResponseSuccess & IResponseError;

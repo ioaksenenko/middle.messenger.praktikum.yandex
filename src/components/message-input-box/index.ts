@@ -8,7 +8,8 @@ import { ButtonView, ButtonType } from "../button/types";
 import { Form } from "../form";
 import { FormMethod } from "../form/types";
 import { InputBox } from "../input-box";
-import { v4 as makeUUID } from "uuid";
+import { connect } from "../../core/store/hocs";
+import socket from "../../core/socket";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
 import type { IMessageInputBoxProps } from "./types";
@@ -46,7 +47,9 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
                             placeholder: "Сообщение",
                             name: "message",
                             shape: Shape.rounded,
-                            required: true
+                            required: true,
+                            onInput: this.handleInputMessage.bind(this),
+                            value: this.props.message
                         }),
                         new Button({
                             children: new ChevronRightIcon({ fill: Color.white }),
@@ -66,19 +69,27 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         const message = formData.get("message") as string;
-        message && this.props.setActiveChat({
-            ...this.props.activeChat,
-            messages: [
-                ...this.props.activeChat.messages,
-                {
-                    chatId: this.props.activeChat.id,
-                    id: makeUUID(),
-                    sender: this.props.activeChat.source,
-                    recipient: this.props.activeChat.target,
-                    date: new Date().toISOString(),
-                    message
-                }
-            ]
+        message && socket.sendMessage(message);
+        this.setProps({
+            ...this.props,
+            message: ""
         });
     }
+
+    private handleInputMessage(event: InputEvent): void {
+        const input = event.target as HTMLInputElement;
+        document.addEventListener("keydown", this.handleMessageInputKeydown.bind(this, input.value), { once: true });
+    }
+
+    private handleMessageInputKeydown(message: string, event: KeyboardEvent): void {
+        if (event.key === "Enter") {
+            message && socket.sendMessage(message);
+            this.setProps({
+                ...this.props,
+                message: ""
+            });
+        }
+    }
 }
+
+export default connect<any>(store => ({ messages: store.messages }))(MessageInputBox);

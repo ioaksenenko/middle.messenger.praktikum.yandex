@@ -7,3 +7,5 @@ export { ChevronRightIcon } from "./chevron-right-icon";
 export { AttachmentIcon } from "./attachment-icon";
 export { CheckIcon } from "./check-icon";
 export { CloseIcon } from "./close-icon";
+export { MenuKebabIcon } from "./menu-kebab-icon";
+export { AddIcon } from "./add-icon";
