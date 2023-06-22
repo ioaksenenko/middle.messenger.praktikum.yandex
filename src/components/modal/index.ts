@@ -10,16 +10,15 @@ import { ButtonView } from "../button/types";
 import { Size } from "../../types";
 
 class Modal extends Component<IModalProps> {
-    private overlay: Overlay;
+    private readonly overlay: Overlay = new Overlay({
+        onClick: this.hide.bind(this)
+    });
 
     constructor({ header, body, footer }: IModalProps = {}) {
         super({ header, body, footer });
     }
 
     protected render(): TComponentOrComponentArray | null {
-        this.overlay = new Overlay({
-            onClick: this.hide.bind(this)
-        });
         return new Box({
             className: "modal",
             children: [

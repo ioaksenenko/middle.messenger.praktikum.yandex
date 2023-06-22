@@ -3,9 +3,3 @@ export enum StoreEvents {
 }
 
 export type TState = Record<string, any>;
-
-export interface IRequestState<TData = any> {
-    loading: boolean;
-    errors: Record<string, string[]>;
-    data: TData;
-}

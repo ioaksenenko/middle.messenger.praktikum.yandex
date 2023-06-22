@@ -1,5 +1,5 @@
-import RegistrationPage from "./registration-page";
-import LoginPage from "./login-page";
+import SignUpPage from "./sign-up-page";
+import SignInPage from "./sign-in-page";
 import ProfilePage from "./profile-page";
 import ChatsPage from "./chats-page";
 import ChangePasswordPage from "./change-password-page";
@@ -9,8 +9,8 @@ export { ServerErrorPage } from "./server-error-page";
 export { NavigationPage } from "./navigation-page";
 
 export {
-    RegistrationPage,
-    LoginPage,
+    SignUpPage,
+    SignInPage,
     ProfilePage,
     ChatsPage,
     ChangePasswordPage

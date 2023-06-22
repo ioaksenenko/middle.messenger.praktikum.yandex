@@ -1,7 +1,7 @@
 import { Router } from "./core/router";
 import {
-    LoginPage,
-    RegistrationPage,
+    SignInPage,
+    SignUpPage,
     ChatsPage,
     ProfilePage,
     NotFoundPage,
@@ -13,10 +13,17 @@ const router = new Router("#root");
 
 router
     .use("/", ChatsPage)
-    .use("/login/", LoginPage)
-    .use("/registration/", RegistrationPage)
+    .use("/signin/", SignInPage)
+    .use("/signup/", SignUpPage)
     .use("/profile/", ProfilePage)
     .use("/not-found/", NotFoundPage)
     .use("/server-error/", ServerErrorPage)
     .use("/change-password/", ChangePasswordPage)
     .start();
+
+// import ChatSidebar from "./components/chat-sidebar";
+// import { render } from "./core/route/helpers";
+
+// const box = new ChatSidebar();
+
+// render("#root", box);
