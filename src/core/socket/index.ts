@@ -28,7 +28,9 @@ export class Socket {
         this._chatId = chatId;
         store.set("chatsToken", null);
         chatsTokenController.getToken({ id: chatId });
-        userController.getUser();
+        if (!store.getState().user) {
+            userController.getUser();
+        }
         store.on(StoreEvents.Updated, this.createSocket.bind(this));
     }
 
