@@ -48,7 +48,6 @@ export class UserController {
     public updateUser(data: IUser): void {
         store.set("user.loading", true);
         store.set("user.errors", null);
-        store.set("user.data", null);
 
         userValidator.validate(data);
 

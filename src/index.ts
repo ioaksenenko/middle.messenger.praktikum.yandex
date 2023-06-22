@@ -20,10 +20,3 @@ router
     .use("/server-error/", ServerErrorPage)
     .use("/change-password/", ChangePasswordPage)
     .start();
-
-// import ChatSidebar from "./components/chat-sidebar";
-// import { render } from "./core/route/helpers";
-
-// const box = new ChatSidebar();
-
-// render("#root", box);

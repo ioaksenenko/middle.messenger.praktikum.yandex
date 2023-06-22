@@ -82,7 +82,15 @@ class ChatHeader extends Component<IChatHeaderProps & IChatHeaderState> {
         });
     }
 
-    private toggleChatMenuVisible(): void {
+    private toggleChatMenuVisible(event: MouseEvent): void {
+        event.stopPropagation();
+        if (!this.props.chatMenuIsVisible) {
+            document.addEventListener("click", () => {
+                this.setProps({
+                    chatMenuIsVisible: false
+                });
+            }, { once: true });
+        }
         this.setProps({
             chatMenuIsVisible: !this.props.chatMenuIsVisible
         });
