@@ -6,38 +6,45 @@ import { Typography } from "../typography";
 import { TypographyVariant } from "../typography/types";
 import { connect } from "../../core/store/hocs";
 
-import type { IMessageListProps } from "./types";
+import type { IMessageListState } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-class MessageList extends Component<IMessageListProps> {
-    constructor({ id, className, activeChat }: IMessageListProps) {
-        super({ id, className, activeChat });
-    }
-
+class MessageList extends Component<IMessageListState> {
     protected render(): TComponentOrComponentArray {
         return new Box({
             height: BoxHeight.full,
             width: BoxWidth.full,
             alignItems: BoxAlignItems.center,
-            justifyContent: this.props.messages?.length ? BoxJustifyContent.end : BoxJustifyContent.center,
+            justifyContent: this.props.activeChat && this.props.messages?.length ? BoxJustifyContent.end : BoxJustifyContent.center,
             gap: BoxGap.small,
             className: "message-list",
-            children: this.props.messages?.length
-                ? this.props.messages.map(
-                    message => new Message({
-                        id: message.id,
-                        children: message.content,
-                        time: message.time,
-                        userId: message.user_id
+            children: this.props.activeChat
+                ? this.props.messages?.length
+                    ? this.props.messages.map(
+                        message => new Message({
+                            id: message.id,
+                            children: message.content,
+                            time: message.time,
+                            userId: message.user_id
+                        })
+                    )
+                    : new Typography({
+                        variant: TypographyVariant.mega,
+                        children: "Напишите сообщение, чтобы начать диалог",
+                        className: "message-list__placeholder"
                     })
-                )
                 : new Typography({
                     variant: TypographyVariant.mega,
-                    children: this.props.activeChat ? "Напишите сообщение, чтобы начать диалог" : "Выберите чат, чтобы отправить сообщение",
+                    children: "Создайте и выберите чат, чтобы отправить сообщение",
                     className: "message-list__placeholder"
                 })
         });
     }
 }
 
-export default connect<IMessageListProps>(store => ({ messages: store.messages }))(MessageList);
+export default connect<IMessageListState>(
+    store => ({
+        activeChat: store.chats?.activeChat,
+        messages: store.messages
+    })
+)(MessageList);

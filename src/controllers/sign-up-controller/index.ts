@@ -32,7 +32,13 @@ export class SignInController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
+                    break;
+                }
+                case 409: {
+                    store.set("signup.errors", {
+                        "Conflict Error": [response.data.reason]
+                    });
                     break;
                 }
                 case 500: {

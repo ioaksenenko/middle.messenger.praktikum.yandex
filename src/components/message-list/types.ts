@@ -1,4 +1,3 @@
-import type { IComponentProps } from "../../core/component/types";
 import type { IChat } from "../../api/chats-api/types";
 
 export interface IMessage {
@@ -12,7 +11,7 @@ export interface IMessage {
     file: string | null;
 }
 
-export interface IMessageListProps extends IComponentProps {
+export interface IMessageListState {
     activeChat?: IChat;
     messages?: IMessage[];
 }

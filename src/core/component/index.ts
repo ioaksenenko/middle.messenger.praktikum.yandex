@@ -378,7 +378,12 @@ export class Component<P extends Record<string, any> = any> {
     }
 
     public show(querySelector: string): void {
-        document.getElementById("root")?.replaceWith(this.getContent());
+        if (!this.element) {
+            if (!this.content.firstElementChild) {
+                this.eventBus.emit(ComponentEvent.RENDER);
+            }
+            document.getElementById("root")?.replaceWith(this.content);
+        }
     }
 
     public hide(querySelector: string): void {

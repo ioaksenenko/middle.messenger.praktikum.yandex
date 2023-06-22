@@ -1,6 +1,7 @@
 import { chatsApi } from "../../api";
 import store from "../../core/store";
 import { Router } from "../../core/router";
+import { modal } from "../../components";
 
 import type {
     IChatListRequestData,
@@ -20,7 +21,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 500: {
@@ -46,6 +47,7 @@ export class ChatsController {
             switch (response.status) {
                 case 200: {
                     this.getChats();
+                    modal.hide();
                     break;
                 }
                 case 400: {
@@ -55,7 +57,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 500: {
@@ -81,6 +83,7 @@ export class ChatsController {
             switch (response.status) {
                 case 200: {
                     this.getChats();
+                    modal.hide();
                     return;
                 }
                 case 400: {
@@ -90,7 +93,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 403: {

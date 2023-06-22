@@ -10,7 +10,7 @@ import { classNames } from "../../helpers";
 import type { IChatProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class Chat extends Component<IChatProps> {
+class Chat extends Component<IChatProps> {
     constructor({ id, className, children, avatar, title, date, message, active, onClick }: IChatProps) {
         super({ id, className, children, avatar, title, date, message, active, onClick });
     }
@@ -67,3 +67,5 @@ export class Chat extends Component<IChatProps> {
         });
     }
 }
+
+export default Chat;

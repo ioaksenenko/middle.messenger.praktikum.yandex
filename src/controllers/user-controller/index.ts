@@ -12,6 +12,7 @@ export class UserController {
     public getUser(): void {
         store.set("user.loading", true);
         store.set("user.errors", null);
+        store.set("user.data", null);
 
         userApi.request().then(response => {
             switch (response.status) {
@@ -26,7 +27,7 @@ export class UserController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 500: {
@@ -47,6 +48,7 @@ export class UserController {
     public updateUser(data: IUser): void {
         store.set("user.loading", true);
         store.set("user.errors", null);
+        store.set("user.data", null);
 
         userValidator.validate(data);
 
@@ -67,7 +69,7 @@ export class UserController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 500: {

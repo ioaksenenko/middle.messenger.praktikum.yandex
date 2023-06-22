@@ -24,7 +24,7 @@ export class UserSearchController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/signin/");
                     break;
                 }
                 case 500: {

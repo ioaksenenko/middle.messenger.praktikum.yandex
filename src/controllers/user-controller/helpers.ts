@@ -6,7 +6,7 @@ export const getDisplayName = (data: IUser): string => {
     const firstName = (data.first_name ?? "").trim();
     const secondName = (data.second_name ?? "").trim();
     const displayName = (data.display_name ?? "").trim();
-    return displayName ?? [firstName, secondName].filter(identity).join(" ") ?? "";
+    return displayName || [firstName, secondName].filter(identity).join(" ") || "Неизвестный пользователь";
 };
 
 export const prepareData = (data: IUser): TUserUpdateRequestData => {
@@ -19,7 +19,7 @@ export const prepareData = (data: IUser): TUserUpdateRequestData => {
     return {
         first_name: firstName,
         second_name: secondName,
-        display_name: displayName ?? [firstName, secondName].filter(identity).join(" ") ?? "",
+        display_name: displayName || [firstName, secondName].filter(identity).join(" ") || "",
         login,
         email,
         phone

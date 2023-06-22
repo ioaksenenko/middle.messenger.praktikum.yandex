@@ -8,12 +8,17 @@ import type { Component } from "../../core";
 export const connect = <S extends Record<string, any> = any, P extends Record<string, any> = any>(
     mapStateToProps: (state: TState) => S
 ) => (
-    ComponentClass: typeof Component<S & P>
+    ComponentClass: typeof Component<any>
 ) => class extends ComponentClass {
-    constructor(props: S & P) {
-        let state = mapStateToProps(store.getState()) || {};
+    constructor(props?: P) {
+        let state = mapStateToProps(store.getState());
 
-        super({ ...(props ?? {}), ...state });
+        const propsAndState = {
+            ...(props ?? {}),
+            ...(state ?? {})
+        };
+
+        super(propsAndState);
 
         store.on(StoreEvents.Updated, () => {
             const newState = mapStateToProps(store.getState()) || {};
