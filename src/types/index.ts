@@ -4,9 +4,10 @@ import type {
     SearchIcon,
     TrashIcon,
     UploadIcon,
-    ChevronRight,
+    ChevronRightIcon,
     AttachmentIcon,
-    CheckIcon
+    CheckIcon,
+    AddIcon
 } from "../icons";
 
 export type TIcon =
@@ -15,9 +16,10 @@ export type TIcon =
     | SearchIcon
     | TrashIcon
     | UploadIcon
-    | ChevronRight
+    | ChevronRightIcon
     | AttachmentIcon
-    | CheckIcon;
+    | CheckIcon
+    | AddIcon;
 
 export enum Color {
     primary1 = "primary1",

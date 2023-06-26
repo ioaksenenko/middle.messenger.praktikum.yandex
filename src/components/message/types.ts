@@ -1,9 +1,13 @@
 import type { IComponentProps } from "../../core/component/types";
-import type { IUser } from "../../data";
 
 export interface IMessageProps extends IComponentProps {
     children: string;
-    date: string;
-    sender: IUser;
-    recipient: IUser;
+    time: string;
+    userId: number;
 }
+
+export interface IMessageStore {
+    currentUserId?: number;
+}
+
+export type TMessageProps = IMessageProps & IMessageStore;

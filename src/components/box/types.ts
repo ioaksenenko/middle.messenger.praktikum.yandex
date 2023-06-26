@@ -10,7 +10,8 @@ export enum BoxTag {
 
 export enum BoxDisplay {
     flex = "flex",
-    block = "block"
+    block = "block",
+    none = "none"
 }
 
 export enum BoxFlexDirection {

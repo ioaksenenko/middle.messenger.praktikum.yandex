@@ -1,7 +1,10 @@
 import type { IComponentProps } from "../../core/component/types";
-import type { IChat } from "../../data";
+import type { IChat } from "../../api/chats-api/types";
 
 export interface IMessageInputBoxProps extends IComponentProps {
-    activeChat: IChat;
-    setActiveChat: (chat: IChat) => void;
+    message?: string;
+}
+
+export interface IMessageInputBoxState {
+    activeChat?: IChat;
 }

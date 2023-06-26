@@ -1,7 +1,6 @@
-import type { IComponentProps } from "../../core/component/types";
-import type { IChat } from "../../data";
+import type { IChat } from "../../api/chats-api/types";
 
-export interface IChatListProps extends Omit<IComponentProps, "children"> {
+export interface IChatListState {
+    chats?: IChat[];
     activeChat?: IChat;
-    setActiveChat?: (chat?: IChat) => void;
 }

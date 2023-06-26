@@ -1,23 +1,20 @@
 import { Component } from "../../core";
 import { Box } from "../box";
-import { BoxAlignItems, BoxJustifyContent, BoxFlexDirection, BoxGap, BoxWidth, BoxOverflow, BoxPadding } from "../box/types";
+import { BoxAlignItems, BoxJustifyContent, BoxFlexDirection, BoxGap, BoxWidth, BoxOverflow, BoxPadding, BoxDisplay } from "../box/types";
 import { Button } from "../button";
-import { AttachmentIcon, ChevronRight } from "../../icons";
+import { AttachmentIcon, ChevronRightIcon } from "../../icons";
 import { Shape, Color, Size } from "../../types";
 import { ButtonView, ButtonType } from "../button/types";
 import { Form } from "../form";
 import { FormMethod } from "../form/types";
 import { InputBox } from "../input-box";
-import { v4 as makeUUID } from "uuid";
+import { connect } from "../../core/store/hocs";
+import socket from "../../core/socket";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
-import type { IMessageInputBoxProps } from "./types";
+import type { IMessageInputBoxProps, IMessageInputBoxState } from "./types";
 
-export class MessageInputBox extends Component<IMessageInputBoxProps> {
-    constructor({ id, className, children, activeChat, setActiveChat }: IMessageInputBoxProps) {
-        super({ id, className, children, activeChat, setActiveChat });
-    }
-
+class MessageInputBox extends Component<IMessageInputBoxProps & IMessageInputBoxState> {
     protected render(): TComponentOrComponentArray {
         return new Box({
             alignItems: BoxAlignItems.center,
@@ -28,6 +25,7 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
             overflow: BoxOverflow.hidden,
             padding: BoxPadding.small,
             className: "message-input-box",
+            display: this.props.activeChat ? BoxDisplay.flex : BoxDisplay.none,
             children: [
                 new Button({
                     children: new AttachmentIcon(),
@@ -46,10 +44,12 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
                             placeholder: "Сообщение",
                             name: "message",
                             shape: Shape.rounded,
-                            required: true
+                            required: true,
+                            onInput: this.handleInputMessage.bind(this),
+                            value: this.props.message
                         }),
                         new Button({
-                            children: new ChevronRight({ fill: Color.white }),
+                            children: new ChevronRightIcon({ fill: Color.white }),
                             shape: Shape.circular,
                             color: Color.primary2,
                             size: Size.small,
@@ -66,19 +66,29 @@ export class MessageInputBox extends Component<IMessageInputBoxProps> {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         const message = formData.get("message") as string;
-        message && this.props.setActiveChat({
-            ...this.props.activeChat,
-            messages: [
-                ...this.props.activeChat.messages,
-                {
-                    chatId: this.props.activeChat.id,
-                    id: makeUUID(),
-                    sender: this.props.activeChat.source,
-                    recipient: this.props.activeChat.target,
-                    date: new Date().toISOString(),
-                    message
-                }
-            ]
+        message && socket.sendMessage(message);
+        this.setProps({
+            message: ""
         });
     }
+
+    private handleInputMessage(event: InputEvent): void {
+        const input = event.target as HTMLInputElement;
+        document.addEventListener("keydown", this.handleMessageInputKeydown.bind(this, input.value), { once: true });
+    }
+
+    private handleMessageInputKeydown(message: string, event: KeyboardEvent): void {
+        if (event.key === "Enter") {
+            message && socket.sendMessage(message);
+            this.setProps({
+                message: ""
+            });
+        }
+    }
 }
+
+export default connect<IMessageInputBoxState, IMessageInputBoxProps>(
+    store => ({
+        activeChat: store.chats?.activeChat
+    })
+)(MessageInputBox);

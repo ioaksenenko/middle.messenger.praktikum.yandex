@@ -1,34 +1,50 @@
 import { Component } from "../../core";
-import { chats, currentUserId } from "../../data";
-import { Chat } from "../chat";
-import { last } from "../../helpers";
+import Chat from "../chat";
+import { connect } from "../../core/store/hocs";
+import { Box } from "../box";
+import socket from "../../core/socket";
+import store from "../../core/store";
+import { chatsController } from "../../controllers";
+import { BoxWidth } from "../box/types";
 
-import type { IChatListProps } from "./types";
+import type { IChatListState } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-export class ChatList extends Component<IChatListProps> {
-    constructor({ id, className, activeChat, setActiveChat }: IChatListProps) {
-        super({ id, className, activeChat, setActiveChat });
+class ChatList extends Component<IChatListState> {
+    constructor() {
+        super();
+        chatsController.getChats();
     }
 
-    protected render(): TComponentOrComponentArray {
-        return chats.filter(chat => chat.source.id === currentUserId).map(chat => {
-            const lastMessage = last(chat.messages);
-            return new Chat({
-                id: chat.id,
-                avatar: chat.avatar,
-                title: chat.title,
-                date: lastMessage?.date,
-                message: lastMessage?.message,
-                onClick: this.handleChatClick.bind(this),
-                active: this.props.activeChat?.id === chat.id
-            });
+    protected render(): TComponentOrComponentArray | null | undefined {
+        return new Box({
+            width: BoxWidth.full,
+            children: this.props.chats?.map?.(chat => (
+                new Chat({
+                    id: chat.id,
+                    avatar: chat.avatar,
+                    title: chat.title,
+                    date: chat.last_message?.time,
+                    message: chat.last_message?.content,
+                    onClick: this.handleChatClick.bind(this),
+                    active: this.props.activeChat?.id === chat.id
+                })
+            ))
         });
     }
 
     private handleChatClick(event: MouseEvent): void {
         const element = event.currentTarget as HTMLDivElement;
-        const chat = chats.find(chat => chat.id === element.id);
-        this.props.setActiveChat?.(chat);
+        const chatId = element.dataset.id && /\d+/.test(element.dataset.id) ? parseInt(element.dataset.id) : undefined;
+        const chat = chatId ? this.props.chats?.find(chat => chat.id === chatId) : undefined;
+        store.set("chats.activeChat", chat);
+        chat && socket.connect(chat.id);
     }
 }
+
+export default connect<IChatListState>(
+    store => ({
+        chats: store.chats?.data,
+        activeChat: store.chats?.activeChat
+    })
+)(ChatList);

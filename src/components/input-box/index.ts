@@ -23,6 +23,9 @@ export class InputBox extends Component<IInputBoxProps> {
         readonly,
         required,
         onChange,
+        onInput,
+        onFocus,
+        onBlur,
         size = Size.medium,
         color = Color.primary1,
         shape = Shape.circular,
@@ -45,6 +48,9 @@ export class InputBox extends Component<IInputBoxProps> {
             readonly,
             required,
             onChange,
+            onInput,
+            onFocus,
+            onBlur,
             size,
             color,
             shape,
@@ -145,11 +151,13 @@ export class InputBox extends Component<IInputBoxProps> {
                 }
             });
         }
+        this.props.onBlur?.(event);
     }
 
-    protected handleInputFocus(): void {
+    protected handleInputFocus(event: FocusEvent): void {
         this.setProps({
             isFocused: true
         });
+        this.props.onFocus?.(event);
     }
 }

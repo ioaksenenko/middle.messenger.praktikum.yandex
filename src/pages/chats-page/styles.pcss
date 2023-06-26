@@ -2,6 +2,10 @@
     &__sidebar {
         border-right: thin solid var(--color-black-alpha10);
         width: calc(100vw / 3);
+
+        &__add-button {
+            margin-right: 8px;
+        }
     }
 
     &__search {
@@ -15,7 +19,21 @@
         border-top: thin solid var(--color-black-alpha10);
     }
     
-    &__user {
+    &__header {
         border-bottom: thin solid var(--color-black-alpha10);
+        padding-right: 8px;
+    }
+
+    &__chat-actions {
+        position: absolute;
+        top: 61px;
+        right: 8px;
+        border: thin solid var(--color-black-alpha10);
+        border-radius: 16px;
+
+        &__button {
+            width: 100%;
+            justify-content: start;
+        }
     }
 }

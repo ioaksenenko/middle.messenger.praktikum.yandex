@@ -32,7 +32,7 @@ export class Error extends Component<IErrorProps> {
                     variant: TypographyVariant.mega
                 }),
                 new Link({
-                    href: "/chats/",
+                    href: "/",
                     children: "Вернуться к чатам"
                 })
             ]
