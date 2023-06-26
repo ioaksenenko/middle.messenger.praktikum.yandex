@@ -266,9 +266,9 @@ export class Component<P extends Record<string, any> = any> {
         switch (pseudoClass) {
             case "focus":
                 element.focus();
-                try {
-                    element.setSelectionRange(element.value.length, element.value.length);
-                } catch { }
+                element.type = "text";
+                element.setSelectionRange(element.value.length, element.value.length);
+                element.type = this.props.type;
         }
     }
 

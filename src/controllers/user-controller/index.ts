@@ -62,9 +62,21 @@ export class UserController {
                     break;
                 }
                 case 400: {
-                    store.set("user.errors", {
-                        "Bad Request": [response.data.reason]
-                    });
+                    const fields = ["first_name", "second_name", "login", "email", "phone", "display_name"];
+                    fields.forEach(
+                        field => {
+                            if (response.data.reason.includes(field)) {
+                                store.set("user.errors", {
+                                    [field]: [response.data.reason]
+                                });
+                            }
+                        }
+                    );
+                    if (!store.getState().user.errors) {
+                        store.set("user.errors", {
+                            "Bad Request": [response.data.reason]
+                        });
+                    }
                     break;
                 }
                 case 401: {
