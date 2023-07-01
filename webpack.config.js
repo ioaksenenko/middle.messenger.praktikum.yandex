@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const FileManagerPlugin = require("filemanager-webpack-plugin");
+// const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -59,13 +59,13 @@ module.exports = {
             template: path.join(__dirname, "src", "index.html"),
             filename: "index.html"
         }),
-        new FileManagerPlugin({
-            events: {
-                onStart: {
-                    delete: ["dist"],
-                },
-            },
-        }),
+        // new FileManagerPlugin({
+        //     events: {
+        //         onStart: {
+        //             delete: ["dist"],
+        //         },
+        //     },
+        // }),
         new MiniCssExtractPlugin({
             filename: "[name].[contenthash].css",
         }),
