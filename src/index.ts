@@ -8,6 +8,7 @@ import {
     ServerErrorPage,
     ChangePasswordPage
 } from "./pages";
+import "./styles.pcss";
 
 const router = new Router("#root");
 

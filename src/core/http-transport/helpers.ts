@@ -1,6 +1,4 @@
-import type { TRequestData } from "./types";
-
-export const queryStringify = (data: TRequestData): string => {
+export const queryStringify = (data: unknown): string => {
     return typeof data === "object" && data
         ? "?" + Object.entries(data).map(
             ([key, val]) => `${key}=${String(val)}`

@@ -12,6 +12,8 @@ import MessageInputBox from "./message-input-box";
 import ChatHeader from "./chat-header";
 import ChatSidebar from "./chat-sidebar";
 import ChatSidebarHeader from "./chat-sidebar-header";
+import EditedInputBox from "./edited-input-box";
+import EditedAvatar from "./edited-avatar";
 
 export {
     modal,
@@ -27,7 +29,9 @@ export {
     MessageInputBox,
     ChatHeader,
     ChatSidebar,
-    ChatSidebarHeader
+    ChatSidebarHeader,
+    EditedInputBox,
+    EditedAvatar
 };
 
 export { Box } from "./box";
