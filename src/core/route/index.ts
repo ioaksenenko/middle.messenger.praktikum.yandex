@@ -1,33 +1,29 @@
 import { render, isEqual } from "./helpers";
 
 import type { Component } from "../component";
-
-export interface IRouteProps {
-    rootQuery: string;
-}
+import type { IRouteProps } from "./types";
 
 export class Route<P extends Record<string, any> = any> {
-    private _pathname: string;
-    private readonly _blockClass: typeof Component<P>;
-    private _block: Component<P> | null;
-    private readonly _props: IRouteProps;
+    protected readonly _ComponentClass: typeof Component<P>;
+    protected readonly _props: IRouteProps;
+    protected _component: Component<P> | null;
+    protected _pathname: string;
 
-    constructor(pathname: string, view: typeof Component<P>, props: IRouteProps) {
+    constructor(pathname: string, ComponentClass: typeof Component<P>, props: IRouteProps) {
         this._pathname = pathname;
-        this._blockClass = view;
-        this._block = null;
+        this._ComponentClass = ComponentClass;
+        this._component = null;
         this._props = props;
     }
 
     navigate(pathname: string): void {
         if (this.match(pathname)) {
-            this._pathname = pathname;
             this.render();
         }
     }
 
     leave(): void {
-        this._block?.hide(this._props.rootQuery);
+        this._component?.hide(this._props.rootQuery);
     }
 
     match(pathname: string): boolean {
@@ -35,11 +31,11 @@ export class Route<P extends Record<string, any> = any> {
     }
 
     render(): void {
-        if (!this._block) {
-            this._block = new this._blockClass();
-            render(this._props.rootQuery, this._block);
+        if (!this._component) {
+            this._component = new this._ComponentClass();
+            render(this._props.rootQuery, this._component);
             return;
         }
-        this._block.show(this._props.rootQuery);
+        this._component.show(this._props.rootQuery);
     }
 }

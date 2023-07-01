@@ -6,7 +6,6 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "sourceMap": true,
-        "strictNullChecks": true,
-        "typeRoots": ["./src/types"]
+        "strictNullChecks": true
     }
 }

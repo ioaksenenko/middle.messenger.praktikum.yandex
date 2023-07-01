@@ -5,8 +5,8 @@ import { cloneDeep } from "../../helpers";
 
 import type { TState } from "./types";
 
-class Store extends EventBus {
-    private readonly _state: TState = {};
+export class Store extends EventBus {
+    protected readonly _state: TState = {};
 
     public getState(): TState {
         return cloneDeep(this._state);
@@ -14,7 +14,7 @@ class Store extends EventBus {
 
     public set(path: string, value: unknown): void {
         set(this._state, path, value);
-        if (typeof this.listeners[StoreEvents.Updated] !== "undefined") {
+        if (typeof this._listeners[StoreEvents.Updated] !== "undefined") {
             this.emit(StoreEvents.Updated);
         }
     }
