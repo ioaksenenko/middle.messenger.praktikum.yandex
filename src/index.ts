@@ -20,4 +20,5 @@ router
     .use("/not-found/", NotFoundPage)
     .use("/server-error/", ServerErrorPage)
     .use("/change-password/", ChangePasswordPage)
+    .use("", NotFoundPage)
     .start();

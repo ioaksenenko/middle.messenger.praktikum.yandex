@@ -100,8 +100,9 @@ export class HTTPTransport {
             if (method === RequestMethod.GET && typeof data !== "undefined") {
                 url = `${typeof url === "string" ? url : url.href}${queryStringify(data)}`;
             }
+            url = this._baseURL && typeof url === "string" ? `${this._baseURL}${url}` : url;
 
-            xhr.open(method, this._baseURL && typeof url === "string" ? `${this._baseURL}${url}` : url);
+            xhr.open(method, url);
 
             headers && Object.entries(headers).forEach(
                 ([key, val]) => {
@@ -116,7 +117,9 @@ export class HTTPTransport {
                 let data = null;
                 try {
                     data = JSON.parse(xhr.response);
-                } catch {}
+                } catch {
+                    data = xhr.response;
+                }
                 resolve({
                     status: xhr.status,
                     data
