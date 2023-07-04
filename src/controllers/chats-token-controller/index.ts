@@ -18,7 +18,7 @@ export class ChatsTokenController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {

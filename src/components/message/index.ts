@@ -15,7 +15,7 @@ class Message extends Component<IMessageProps & IMessageStore> {
     }
 
     protected render(): TComponentOrComponentArray {
-        const currentUserId = store.getState().user.data.id;
+        const currentUserId = store.getState().user?.data?.id;
         return new Box({
             className: classNames("message", this.props.userId === currentUserId ? "message_primary1" : "message_primary2"),
             children: [

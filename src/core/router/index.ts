@@ -2,28 +2,28 @@ import { Route } from "../route";
 import type { Component } from "../component";
 
 export class Router {
-    private static __instance: Router;
-    protected routes: Route[];
-    protected history: History;
-    private _currentRoute: Route | null;
-    private readonly _rootQuery: string;
+    protected static _instance: Router | null;
+    protected _rootQuery: string;
+    protected _currentRoute: Route | null;
+    protected _routes: Route[];
+    protected _history: History;
 
     constructor(rootQuery: string) {
-        if (Router.__instance) {
-            return Router.__instance;
+        if (Router._instance) {
+            return Router._instance;
         }
 
-        this.routes = [];
-        this.history = window.history;
-        this._currentRoute = null;
         this._rootQuery = rootQuery;
+        this._currentRoute = null;
+        this._routes = [];
+        this._history = window.history;
 
-        Router.__instance = this;
+        Router._instance = this;
     }
 
-    use<P extends Record<string, any> = any>(pathname: string, block: typeof Component<P>): Router {
-        const route = new Route(pathname, block, { rootQuery: this._rootQuery });
-        this.routes.push(route);
+    use<P extends Record<string, any> = any>(pathname: string, ComponentClass: typeof Component<P>): Router {
+        const route = new Route(pathname, ComponentClass, { rootQuery: this._rootQuery });
+        this._routes.push(route);
         return this;
     }
 
@@ -37,7 +37,7 @@ export class Router {
     }
 
     _onRoute(pathname: string): void {
-        const route = this.getRoute(pathname);
+        const route = this.getRoute(pathname) ?? this.getRoute("");
         if (!route) {
             return;
         }
@@ -51,20 +51,20 @@ export class Router {
     }
 
     go(pathname: string): void {
-        this.history.pushState({}, "", pathname);
+        this._history.pushState({}, "", pathname);
         this._onRoute(pathname);
     }
 
     back(): void {
-        this.history.back();
+        this._history.back();
     }
 
     forward(): void {
-        this.history.forward();
+        this._history.forward();
     }
 
     getRoute(pathname: string): Route | undefined {
-        return this.routes.find(
+        return this._routes.find(
             route => route.match(pathname)
         );
     }

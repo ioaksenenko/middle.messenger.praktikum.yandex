@@ -18,6 +18,9 @@ export class UserController {
             switch (response.status) {
                 case 200: {
                     store.set("user.data", response.data);
+                    if (location.pathname === "/" || location.pathname === "/sign-up") {
+                        router.go("/messenger");
+                    }
                     break;
                 }
                 case 400: {
@@ -27,7 +30,9 @@ export class UserController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    if (location.pathname !== "/" && location.pathname !== "/sign-up") {
+                        router.go("/");
+                    }
                     break;
                 }
                 case 500: {
@@ -80,7 +85,7 @@ export class UserController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {

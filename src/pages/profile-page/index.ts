@@ -67,7 +67,7 @@ class ProfilePage extends Component {
                 }),
                 new QuestionLink({
                     question: "Надоел пароль?",
-                    href: "/change-password/",
+                    href: "/change-password",
                     children: "Изменить"
                 })
             ]
@@ -75,7 +75,7 @@ class ProfilePage extends Component {
     }
 
     private handleClickBackButton(): void {
-        router.go("/");
+        router.go("/messenger");
     }
 
     private handleClickLogoutButton(): void {

@@ -13,10 +13,10 @@ import { Shape } from "../../types";
 import { cloneDeep } from "../../helpers";
 import { TypographyVariant } from "../typography/types";
 
-import type { IUserSearchProps } from "./types";
+import type { IUserSearchState } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
-class UserSearch extends Component<IUserSearchProps> {
+class UserSearch extends Component<IUserSearchState> {
     protected render(): TComponentOrComponentArray {
         return new Box({
             width: BoxWidth.full,
@@ -102,9 +102,11 @@ class UserSearch extends Component<IUserSearchProps> {
         }
     }
 
-    private handleUnselectButtonClick(event: MouseEvent): void {
+    private handleUnselectButtonClick(): void {
         //
     }
 }
 
-export default connect<IUserSearchProps>(store => ({ searchResults: store.userSearchResults }))(UserSearch);
+export default connect<IUserSearchState>(
+    store => ({ searchResults: store.userSearchResults })
+)(UserSearch);
