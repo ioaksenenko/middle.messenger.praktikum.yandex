@@ -11,11 +11,11 @@ export const connect = <S extends Record<string, any> = any, P extends Record<st
     ComponentClass: typeof Component<any>
 ) => class extends ComponentClass {
     constructor(props?: P) {
-        let state = mapStateToProps(store.getState());
+        let state = mapStateToProps(store.getState()) || {};
 
         const propsAndState = {
             ...(props ?? {}),
-            ...(state ?? {})
+            ...state
         };
 
         super(propsAndState);

@@ -69,13 +69,5 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].[contenthash].css",
         }),
-    ],
-    devServer: {
-        watchFiles: path.join(__dirname, "src"),
-        port: 3000,
-        static: {
-            directory: path.resolve(__dirname, 'dist'),
-        },
-        historyApiFallback: true
-    }
+    ]
 };

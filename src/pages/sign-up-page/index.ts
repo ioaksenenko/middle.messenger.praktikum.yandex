@@ -2,10 +2,16 @@ import { Component } from "../../core";
 import { Page, Typography, QuestionLink, SignUpForm } from "../../components";
 import { TypographyVariant, TypographyTag } from "../../components/typography/types";
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/types";
+import { userController } from "../../controllers";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
 
 class SignUpPage extends Component {
+    constructor() {
+        super();
+        userController.getUser();
+    }
+
     protected render(): TComponentOrComponentArray {
         return new Page({
             alignItems: BoxAlignItems.center,
@@ -20,7 +26,7 @@ class SignUpPage extends Component {
                 new SignUpForm(),
                 new QuestionLink({
                     question: "Уже зарегистированы?",
-                    href: "/signin/",
+                    href: "/",
                     children: "Войти"
                 })
             ]

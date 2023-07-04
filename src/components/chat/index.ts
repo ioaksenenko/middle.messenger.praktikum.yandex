@@ -6,6 +6,7 @@ import { TypographyVariant } from "../typography/types";
 import { Color } from "../../types";
 import { BoxFlexDirection, BoxGap, BoxJustifyContent, BoxPadding, BoxWidth } from "../box/types";
 import { classNames } from "../../helpers";
+import { makeResourcePath } from "../../helpers/make-resource-path";
 
 import type { IChatProps } from "./types";
 import type { TComponentOrComponentArray } from "../../core/component/types";
@@ -26,7 +27,7 @@ class Chat extends Component<IChatProps> {
             children: [
                 new Avatar({
                     size: 56,
-                    src: this.props.avatar,
+                    src: this.props.avatar && makeResourcePath(this.props.avatar),
                     className: "chat__avatar"
                 }),
                 new Box({

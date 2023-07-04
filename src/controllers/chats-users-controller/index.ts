@@ -23,7 +23,7 @@ export class ChatsUsersController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/");
                     break;
                 }
                 case 500: {
@@ -57,7 +57,7 @@ export class ChatsUsersController {
                     break;
                 }
                 case 401: {
-                    router.go("/login/");
+                    router.go("/");
                     break;
                 }
                 case 500: {
@@ -87,7 +87,7 @@ export class ChatsUsersController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 404: {

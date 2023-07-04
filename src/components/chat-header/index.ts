@@ -26,6 +26,7 @@ import {
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
 import type { IChatHeaderProps, IChatHeaderState } from "./types";
+import { makeResourcePath } from "../../helpers/make-resource-path";
 
 class ChatHeader extends Component<IChatHeaderProps & IChatHeaderState> {
     protected render(): TComponentOrComponentArray {
@@ -40,7 +41,7 @@ class ChatHeader extends Component<IChatHeaderProps & IChatHeaderState> {
             children: [
                 new User({
                     avatar: new Avatar({
-                        src: this.props.activeChat?.avatar,
+                        src: this.props.activeChat?.avatar && makeResourcePath(this.props.activeChat?.avatar),
                         size: 36
                     }),
                     children: this.props.activeChat?.title

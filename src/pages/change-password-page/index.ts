@@ -53,7 +53,7 @@ class ChangePasswordPage extends Component<IChangePasswordPageProps> {
                 }),
                 new QuestionLink({
                     question: "Передумали?",
-                    href: "/profile/",
+                    href: "/settings",
                     children: "Вернуться на страницу профиля"
                 })
             ]

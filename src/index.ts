@@ -13,12 +13,11 @@ import "./styles.pcss";
 const router = new Router("#root");
 
 router
-    .use("/", ChatsPage)
-    .use("/signin/", SignInPage)
-    .use("/signup/", SignUpPage)
-    .use("/profile/", ProfilePage)
-    .use("/not-found/", NotFoundPage)
-    .use("/server-error/", ServerErrorPage)
-    .use("/change-password/", ChangePasswordPage)
+    .use("/", SignInPage)
+    .use("/sign-up", SignUpPage)
+    .use("/settings", ProfilePage)
+    .use("/messenger", ChatsPage)
+    .use("/server-error", ServerErrorPage)
+    .use("/change-password", ChangePasswordPage)
     .use("", NotFoundPage)
     .start();

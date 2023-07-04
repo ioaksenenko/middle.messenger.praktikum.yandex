@@ -4,8 +4,14 @@ import { TypographyVariant, TypographyTag } from "../../components/typography/ty
 import { BoxAlignItems, BoxGap, BoxJustifyContent } from "../../components/box/types";
 
 import type { TComponentOrComponentArray } from "../../core/component/types";
+import { userController } from "../../controllers";
 
 class SignInPage extends Component {
+    constructor() {
+        super();
+        userController.getUser();
+    }
+
     protected render(): TComponentOrComponentArray {
         return new Page({
             alignItems: BoxAlignItems.center,
@@ -20,7 +26,7 @@ class SignInPage extends Component {
                 new SignInForm(),
                 new QuestionLink({
                     question: "Ещё не зарегистированы?",
-                    href: "/signup/",
+                    href: "/sign-up",
                     children: "Зарегистрироваться"
                 })
             ]

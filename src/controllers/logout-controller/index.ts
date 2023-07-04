@@ -10,7 +10,7 @@ export class LogoutController {
             switch (response.status) {
                 case 200: {
                     store.set("user.data", null);
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {

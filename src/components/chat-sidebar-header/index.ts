@@ -44,7 +44,7 @@ class ChatSidebarHeader extends Component<IChatSidebarHeaderState> {
                         src: makeResourcePath(this.props.user?.avatar)
                     }),
                     children: new Link({
-                        href: "/profile/",
+                        href: "/settings",
                         children: this.props.user && getDisplayName(this.props.user)
                     })
                 }),
