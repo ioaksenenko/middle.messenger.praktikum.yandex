@@ -21,7 +21,7 @@ export class SignInController {
         signInApi.request(data).then(response => {
             switch (response.status) {
                 case 200: {
-                    router.go("/");
+                    router.go("/messenger");
                     break;
                 }
                 case 400: {
@@ -31,7 +31,10 @@ export class SignInController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    store.set("signin.errors", {
+                        Error: [response.data.reason]
+                    });
+                    router.go("/");
                     break;
                 }
                 case 500: {

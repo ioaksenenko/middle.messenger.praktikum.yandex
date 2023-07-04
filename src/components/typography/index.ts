@@ -12,7 +12,8 @@ export class Typography extends Component<ITypographyProps> {
         children,
         tag = TypographyTag.p,
         variant = TypographyVariant.bodyM,
-        color = Color.black
+        color = Color.black,
+        onClick
     }: ITypographyProps = {}) {
         super({
             id,
@@ -20,7 +21,8 @@ export class Typography extends Component<ITypographyProps> {
             tag,
             variant,
             color,
-            children
+            children,
+            onClick
         }, template);
     }
 }

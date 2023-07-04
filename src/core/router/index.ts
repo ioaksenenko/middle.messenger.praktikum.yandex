@@ -37,7 +37,7 @@ export class Router {
     }
 
     _onRoute(pathname: string): void {
-        const route = this.getRoute(pathname);
+        const route = this.getRoute(pathname) ?? this.getRoute("");
         if (!route) {
             return;
         }

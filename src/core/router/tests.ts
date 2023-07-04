@@ -285,8 +285,23 @@ describe("Router class tests", () => {
 
     describe("_onRoute method tests", () => {
         it("should call getRoute method", () => {
-            const mockedGetRouteMethod = sinon.fake();
+            const MockedRoute = class extends Route {
+                render = sinon.fake();
+            };
+            const pathname = "/some/path/";
+            const ComponentClass = Component;
+            const rootQuery = "#root";
+            const props = { rootQuery };
+            const route = new MockedRoute(pathname, ComponentClass, props);
+            const mockedGetRouteMethod = sinon.stub().returns(route);
             const MockedRouter = class extends Router {
+                constructor(rootQuery: string) {
+                    super(rootQuery);
+                    this._routes = [
+                        route
+                    ];
+                }
+
                 getRoute = mockedGetRouteMethod;
 
                 static resetInstance(): void {
@@ -300,9 +315,7 @@ describe("Router class tests", () => {
 
             MockedRouter.resetInstance();
 
-            const rootQuery = "#root";
             const instance = new MockedRouter(rootQuery);
-            const pathname = "/some/path/";
 
             instance.onRoute(pathname);
 

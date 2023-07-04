@@ -14,6 +14,7 @@ const router = new Router("#root");
 export class ChatsController {
     public getChats(data?: IChatListRequestData): void {
         store.set("chats.loading", true);
+        store.set("chats.data", null);
         chatsApi.request(data).then(response => {
             switch (response.status) {
                 case 200: {
@@ -21,7 +22,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {
@@ -57,7 +58,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {
@@ -93,7 +94,7 @@ export class ChatsController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 403: {

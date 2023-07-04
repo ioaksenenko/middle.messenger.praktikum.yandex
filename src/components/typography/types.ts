@@ -33,4 +33,5 @@ export interface ITypographyProps extends IComponentProps {
     tag?: TypographyTag;
     variant?: TypographyVariant;
     color?: Color;
+    onClick?: EventListener;
 }

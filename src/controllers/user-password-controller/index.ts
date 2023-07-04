@@ -21,7 +21,7 @@ export class UserPasswordController {
         userPasswordApi.update(data).then(response => {
             switch (response.status) {
                 case 200: {
-                    router.go("/profile/");
+                    router.go("/settings");
                     break;
                 }
                 case 400: {
@@ -31,7 +31,7 @@ export class UserPasswordController {
                     break;
                 }
                 case 401: {
-                    router.go("/signin/");
+                    router.go("/");
                     break;
                 }
                 case 500: {
